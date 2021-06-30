@@ -6,7 +6,7 @@
 //  Copyright © 2021 ZeeZide GmbH. All rights reserved.
 //
 
-import Mustache
+import mustache
 
 // TBD:
 // nav: interfacelanguage, swiftpath, aria-label, svg for triangle

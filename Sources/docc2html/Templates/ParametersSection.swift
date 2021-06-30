@@ -6,7 +6,7 @@
 //  Copyright © 2021 ZeeZide GmbH. All rights reserved.
 //
 
-import Mustache
+import mustache
 
 fileprivate let template = Mustache(
   """

@@ -19,7 +19,7 @@ let package = Package(
   targets: [
     .target(name         : "docc2html",
             dependencies : [ "DocCArchive",
-                             .product(name: "Mustache", package: "Mustache"),
+                             .product(name: "mustache", package: "Mustache"),
                              "Macro" ])
   ]
 )

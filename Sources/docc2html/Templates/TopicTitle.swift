@@ -7,7 +7,7 @@
 //
 //
 
-import Mustache
+import mustache
 
 fileprivate let template = Mustache(
   """
