@@ -8,7 +8,7 @@ let package = Package(
   products  : [ .executable(name: "docc2html", targets: [ "docc2html" ]) ],
   
   dependencies: [
-    .package(url: "https://github.com/AlwaysRightInstitute/Mustache.git",
+    .package(url: "https://github.com/AlwaysRightInstitute/mustache.git",
              from: "1.0.1"),
     .package(url: "https://github.com/DoccZz/DocCArchive.git", from: "0.1.0"),
     
@@ -18,8 +18,6 @@ let package = Package(
   
   targets: [
     .target(name         : "docc2html",
-            dependencies : [ "DocCArchive",
-                             .product(name: "mustache", package: "Mustache"),
-                             "Macro" ])
+            dependencies : [ "DocCArchive", "mustache", "Macro" ])
   ]
 )

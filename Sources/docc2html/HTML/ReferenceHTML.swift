@@ -88,7 +88,7 @@ extension DocCArchive.TopicReference {
   {
     let activeClass = isActive ? "" : " class='inactive'"
     let title       = self.title.htmlEscaped
-    let url         = (url ?? idURL).flatMap { ctx.makeRelativeToRoot($0)} ?? ""
+    let url = (self.url ?? idURL).flatMap { ctx.makeRelativeToRoot($0)} ?? ""
 
     var ms = ""
     if !url.isEmpty { ms += "<a href='\(url.htmlEscaped)'\(activeClass)>" }
