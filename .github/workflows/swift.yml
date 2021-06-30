@@ -13,8 +13,8 @@ jobs:
       fail-fast: false
       matrix:
         image:
-          - swift:5.3.2-xenial
-          - swift:5.3.2-bionic
+          - swift:5.4.2-xenial
+          - swift:5.4.2-bionic
     container: ${{ matrix.image }}
     steps:
       - name: Checkout Repository
