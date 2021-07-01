@@ -27,7 +27,12 @@ fileprivate let template = Mustache(
             <ul class="nav-menu-items hierarchy">
               {{#navitems}}
                 <li class="nav-menu-item hierarchy-item">
-                  <span class="{{#isCurrent}}current {{/isCurrent}}item">{{title}}</span>
+                  {{#isCurrent}}
+                    <span class="current item">{{title}}</span>
+                  {{/isCurrent}}
+                  {{^isCurrent}}
+                    <a href="{{link}}" class="item">{{title}}</a>
+                  {{/isCurrent}}
                 </li>
               {{/navitems}}
             </ul>
@@ -40,8 +45,9 @@ fileprivate let template = Mustache(
 )
 
 struct NavigationItem {
-  var title     : String
-  var isCurrent = true
+  let title     : String
+  let isCurrent : Bool
+  let link      : String
 }
 
 func Navigation(title: String = "Documentation",

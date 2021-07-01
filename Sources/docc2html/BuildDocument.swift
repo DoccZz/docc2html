@@ -26,9 +26,7 @@ func buildDocument(_ document : DocCArchive.Document,
     return nil
   } ?? "Documentation"
   
-  let navPath = folder.path.dropFirst().map {
-    NavigationItem(title: $0, isCurrent: false)
-  } + [ NavigationItem(title: document.metadata.title, isCurrent: true) ]
+  let navPath = document.buildNavigationPath(in: folder, with: ctx)
   
   let primaryContent = document.primaryContentSections.flatMap { sections in
     PrimaryContent(
