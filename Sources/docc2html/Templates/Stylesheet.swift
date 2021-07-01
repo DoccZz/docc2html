@@ -16,11 +16,11 @@ let stylesheet =
 
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  background-color: white;
-  color:            black;
-  padding:          0;
-  margin:           0;
-  font-synthesis:   none;
+  background-color:       white;
+  color:                  black;
+  padding:                0;
+  margin:                 0;
+  font-synthesis:         none;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -29,20 +29,22 @@ code {
 }
 
 h1 {
-  font-size:     2.4em;
-  font-weight:   normal;
+  font-size:   2.4em;
+  font-weight: normal;
 }
 h2 {
-  font-size:     2em;
-  font-weight:   normal;
+  font-size:   2em;
+  font-weight: normal;
 }
 h3 {
-  font-size:     1.5em;
-  font-weight:   normal;
+  font-size:   1.5em;
+  font-weight: normal;
 }
 a {
   text-decoration: none;
+  color:           #4064F6;
 }
+a:visited { color: #4064F6; }
 
 /* navigation */
 
@@ -82,14 +84,14 @@ nav .hierarchy li *::before {
 /* page title */
 
 main {
-  padding:       2em 0em 1em 0em;
-  margin:        0;
+  padding: 2em 0em 1em 0em;
+  margin:  0;
 }
 main .topictitle {
-  padding:       0em 3em 0em 3em;
+  padding: 0em 3em 0em 3em;
 }
 main > .container {
-  padding:       0em 3em 0em 3em;
+  padding: 0em 3em 0em 3em;
 }
 
 main .topictitle .eyebrow {
@@ -113,7 +115,7 @@ p > picture > img {
   max-width: 100%;
 }
 
-div.content > p, div.content > p > a, div.content > p > code {
+div.content {
   font-size:   1em;
   line-height: 1.5em;
 }
@@ -137,16 +139,19 @@ section h2 {
   padding: 1.5em 0 1em 0;
 }
 
+.topic .topic-icon-wrapper {
+}
+
 /* contenttable */
 
 .contenttable h3 {
   margin: 0;
 }
 .contenttable .row {
-  display:       flex;
-  align-items:   flex-start;
-  border-top:    1px solid #CCC;
-  padding:       2em 0 1em 0;
+  display:     flex;
+  align-items: flex-start;
+  border-top:  1px solid #CCC;
+  padding:     2em 0 1em 0;
 }
 
 .contenttable .large-3 {
@@ -180,14 +185,14 @@ a code .decorator {
 
 /* declarations */
 
-.declaration-group pre {
-  border: 1px solid #CCC;
+pre {
+  border:        1px solid #CCC;
   border-radius: 4px;
-  margin: 0;
-  padding: 0;
+  margin:        0;
+  padding:       0;
 }
-.declaration-group pre {
-  margin: 0;
+pre {
+  margin:  0;
   padding: 0;
 }
 """

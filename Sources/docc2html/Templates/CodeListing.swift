@@ -12,9 +12,10 @@ fileprivate let template = Mustache(
   """
   <div data-syntax="{{syntax}}" class="code-listing">
     <div class="container-general">
-      <pre><code>{{#lines}}<span class="code-line-container"><span data-line-number="{{{line}}}" class="code-number" style="display: none;"></span><span class="code-line">{{code}}</span></span>{{/lines}}</code></pre>
+      <pre><code>{{#lines}}<span class="code-line-container"><span data-line-number="{{{line}}}" class="code-number" style="display: none;"></span><span class="code-line">{{code}}</span></span>
+  {{/lines}}</code></pre>
     </div>
-  </span>
+  </div>
   """
 )
 

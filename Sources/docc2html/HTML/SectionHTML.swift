@@ -67,18 +67,20 @@ extension DocCArchive.Section {
         return nil
       }
       
-      if case .topic(let tr) = ref {
-        return .init(url: ref.generateURL(in: ctx),
-                     decoratedTitleHTML:
-                       tr.fragments?.generateDecoratedTitleHTML(in: ctx) ?? "",
-                     abstractHTML: ref.generateAbstractHTML(in: ctx),
-                     isDeprecated: tr.deprecated ?? false)
-      }
-      else {
-        return .init(url: ref.generateURL(in: ctx),
-                     decoratedTitleHTML: "",
-                     abstractHTML: ref.generateAbstractHTML(in: ctx),
-                     isDeprecated: false)
+      switch ref {
+        case .topic(let tr):
+          return .init(url: ref.generateURL(in: ctx),
+                       decoratedTitleHTML:
+                         tr.fragments?.generateDecoratedTitleHTML(in: ctx) ?? "",
+                       title: tr.title,
+                       abstractHTML: ref.generateAbstractHTML(in: ctx),
+                       isDeprecated: tr.deprecated ?? false)
+        case .image, .file, .section, .unresolvable:
+          return .init(url: ref.generateURL(in: ctx),
+                       decoratedTitleHTML: "",
+                       title: "",
+                       abstractHTML: ref.generateAbstractHTML(in: ctx),
+                       isDeprecated: false)
       }
     })
   }

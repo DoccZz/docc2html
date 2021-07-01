@@ -25,21 +25,18 @@ fileprivate let template = Mustache(
               <div class="link-block topic">
                 {{#decoratedTitleHTML}}
                   <a href="{{url}}" class="link{{#isDeprecated}} deprecated{{/isDeprecated}} has-adjacent-elements">
-                    <code class="decorated-title">
-                      {{{decoratedTitleHTML}}}
-                    </code>
+                    <code class="decorated-title">{{{decoratedTitleHTML}}}</code>
                   </a>
-                  <div class="abstract">
-                    <div class="content">{{{abstractHTML}}}</div>
-                  </div>
                 {{/decoratedTitleHTML}}
                 {{^decoratedTitleHTML}}
                   <a href="{{url}}" class="link has-adjacent-elements">
-                    <div class="abstract">
-                      <div class="content">{{{abstractHTML}}}</div>
-                    </div>
+                    <span class="topic-icon-wrapper">&nbsp;</span>
+                    {{title}}
                   </a>
                 {{/decoratedTitleHTML}}
+                <div class="abstract">
+                  <div class="content">{{{abstractHTML}}}</div>
+                </div>
               </div>
             {{/items}}
           </div>
@@ -55,6 +52,7 @@ struct Section {
   struct Item {
     let url                : String
     let decoratedTitleHTML : String
+    let title              : String
     let abstractHTML       : String
     let isDeprecated       : Bool
   }
