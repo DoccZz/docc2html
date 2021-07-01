@@ -14,6 +14,9 @@ extension Sequence where Element == DocCArchive.Fragment {
   func generateHTML(in ctx: RenderingContext) -> String {
     return map { $0.generateHTML(in: ctx) }.joined()
   }
+  func generateDecoratedTitleHTML(in ctx: RenderingContext) -> String {
+    return map { $0.generateDecoratedTitleHTML(in: ctx) }.joined()
+  }
 }
 
 extension DocCArchive.Fragment {
@@ -30,35 +33,35 @@ extension DocCArchive.Fragment {
       case .typeIdentifier   : return ""
     }
   }
-  
+
   func generateHTML(in ctx: RenderingContext) -> String {
     let content = stringValue.htmlEscaped
     
     switch self {
-    case .text, .keyword, .identifier,
-         .externalParam, .internalParam, .genericParameter:
-      break
+      case .text, .keyword, .identifier,
+           .externalParam, .internalParam, .genericParameter:
+        break
 
-    case .typeIdentifier(let text, let id, let tid):
-      if let id = id, let ref = ctx.references[id.stringValue] {
-        let url = ref.generateURL(in: ctx)
-        var ms = "<a class='type-identifier-link' href='\(url.htmlEscaped)'>"
-        ms += "<span>\(text.htmlEscaped)</span>"
-        ms += "</a>"
-        return ms
-      }
-      else if let url = ctx.externalURLForTypeID(tid)?.absoluteString {
-        // Or builtin stuff like `Date` "s:10Foundation4DateV"
-        // https://developer.apple.com/documentation/foundation/date
-        var ms = "<a class='type-identifier-link' href='\(url.htmlEscaped)'>"
-        ms += "<span>\(text.htmlEscaped)</span>"
-        ms += "</a>"
-        return ms
-      }
-      else {
-        // Happens in fragments, though they still have the precideIdentifier
-        return text.htmlEscaped
-      }
+      case .typeIdentifier(let text, let id, let tid):
+        if let id = id, let ref = ctx.references[id.stringValue] {
+          let url = ref.generateURL(in: ctx)
+          var ms = "<a class='type-identifier-link' href='\(url.htmlEscaped)'>"
+          ms += "<span>\(text.htmlEscaped)</span>"
+          ms += "</a>"
+          return ms
+        }
+        else if let url = ctx.externalURLForTypeID(tid)?.absoluteString {
+          // Or builtin stuff like `Date` "s:10Foundation4DateV"
+          // https://developer.apple.com/documentation/foundation/date
+          var ms = "<a class='type-identifier-link' href='\(url.htmlEscaped)'>"
+          ms += "<span>\(text.htmlEscaped)</span>"
+          ms += "</a>"
+          return ms
+        }
+        else {
+          // Happens in fragments, though they still have the precideIdentifier
+          return text.htmlEscaped
+        }
     }
 
     if let clazz = spanClass {
@@ -68,5 +71,27 @@ extension DocCArchive.Fragment {
     else {
       return content
     }
+  }
+
+  /**
+   * Those are used in symbol topic titles. They render the fragments
+   * differently.
+   */
+  func generateDecoratedTitleHTML(in ctx: RenderingContext) -> String {
+    let content     = stringValue
+    let contentHTML = content.htmlEscaped
+    var spanClass   : String
+
+    switch self {
+      case .text, .keyword, .typeIdentifier,
+           .externalParam, .internalParam, .genericParameter:
+        spanClass = "decorator"
+      case .identifier:
+        spanClass = "identifier"
+    }
+
+    if content.trim().isEmpty { spanClass += " empty-token" }
+
+    return "<span class='\(spanClass)'>\(contentHTML)</span>"
   }
 }

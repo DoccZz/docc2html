@@ -38,34 +38,36 @@ func buildDocument(_ document : DocCArchive.Document,
     )
   } ?? ""
   
+  // This is for tutorials, e.g. document.kind == .project
+  // they have no topicSections
   assert(document.sections.isEmpty)
   
   let topicSections = document.topicSections.flatMap { sections in
-    TopicSections(sections: sections.map { topic in
-      .init(title: topic.title ?? "??", items: topic.identifiers.compactMap {
-        guard let ref = ctx.references[$0.url.absoluteString] else {
-          return nil
-        }
-        
-        return .init(url: ref.generateURL(in: ctx),
-                     abstractHTML: ref.generateAbstractHTML(in: ctx))
-      })
+    BuildSections(title: "Topics", sectionID: "topics", sections: sections.map {
+      $0.generateTemplateSection(in: ctx)
     })
   } ?? ""
   
+  let seeAlso = document.seeAlsoSections.flatMap { sections in
+    BuildSections(title: "See Also", sectionID: "see-also",
+                  sections: sections.map
+    {
+      $0.generateTemplateSection(in: ctx)
+    })
+  } ?? ""
+
   let html = Page(
     relativePathToRoot: ctx.pathToRoot,
     title: document.metadata.title + "| Documentation",
     contentHTML:
-      """
-      \(Navigation(title: navTitle, items: navPath))
-      <div id="main" role="main" class="main">
-        \(TopicTitle(eyebrow: document.metadata.roleHeading?.rawValue ?? "",
-                     title: document.metadata.title))
-        \(primaryContent)
-        \(topicSections)
-      </div>
-      """
+      DocumentContent(
+        navigationHTML: Navigation(title: navTitle, items: navPath),
+        topicTitleHTML:
+          TopicTitle(eyebrow: document.metadata.roleHeading?.rawValue ?? "",
+                                   title: document.metadata.title),
+        primaryContentHTML: primaryContent,
+        topicSectionsHTML: topicSections, seeAlsoHTML: seeAlso
+      )
   )
   
   try html.write(to: url, atomically: false, encoding: .utf8)

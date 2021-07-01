@@ -57,6 +57,25 @@ extension DocCArchive.Reference {
     return ""
   }
 
+  func generateDecoratedTitleHTML(in ctx: RenderingContext) -> String {
+    switch self {
+      case .image, .file, .unresolvable: return ""
+
+      case .topic(let ref):
+        if ref.kind == .symbol {
+          assert(ref.fragments != nil, "missing fragment")
+          return ref.fragments?.generateDecoratedTitleHTML(in: ctx) ?? ""
+        }
+        else {
+          assert(ref.fragments == nil, "unexpected fragment")
+          return ""
+        }
+        
+      case .section(_):
+        fatalError("unsupported section ref")
+    }
+  }
+
   func generateAbstractHTML(in ctx: RenderingContext) -> String {
     switch self {
     

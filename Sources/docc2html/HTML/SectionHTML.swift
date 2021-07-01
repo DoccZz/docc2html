@@ -58,3 +58,28 @@ extension DocCArchive.Section {
     return ""
   }
 }
+
+extension DocCArchive.Section {
+  
+  func generateTemplateSection(in ctx: RenderingContext) -> Section {
+    Section(title: self.title ?? "??", items: self.identifiers.compactMap {
+      guard let ref = ctx.references[$0.url.absoluteString] else {
+        return nil
+      }
+      
+      if case .topic(let tr) = ref {
+        return .init(url: ref.generateURL(in: ctx),
+                     decoratedTitleHTML:
+                       tr.fragments?.generateDecoratedTitleHTML(in: ctx) ?? "",
+                     abstractHTML: ref.generateAbstractHTML(in: ctx),
+                     isDeprecated: tr.deprecated ?? false)
+      }
+      else {
+        return .init(url: ref.generateURL(in: ctx),
+                     decoratedTitleHTML: "",
+                     abstractHTML: ref.generateAbstractHTML(in: ctx),
+                     isDeprecated: false)
+      }
+    })
+  }
+}
