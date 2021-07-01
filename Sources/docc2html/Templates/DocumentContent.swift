@@ -11,12 +11,12 @@ import mustache
 fileprivate let template = Mustache(
   """
   {{{navigationHTML}}}
-  <div id="main" role="main" class="main">
+  <main id="main" role="main" class="main">
     {{{topicTitleHTML}}}
     {{{primaryContentHTML}}}
     {{{topicSectionsHTML}}}
     {{{seeAlsoHTML}}}
-  </div>
+  </main>
   """
 )
 

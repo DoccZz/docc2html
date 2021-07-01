@@ -10,7 +10,7 @@ import mustache
 
 fileprivate let template = Mustache(
   """
-  <section id='{{sectionClass}}' class='contenttable alt-light'>
+  <section id='{{sectionID}}' class='contenttable alt-light'>
     <div class='container'>
       <h2 class='title'>{{title}}</h2>
 
@@ -71,5 +71,5 @@ func BuildSections(title     : String,
                    sections  : [ Section ])
      -> String
 {
-  template(title: title, sections: sections)
+  template(title: title, sectionID: sectionID, sections: sections)
 }
