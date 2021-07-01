@@ -27,7 +27,7 @@ extension DocCArchive.Content {
         return ms
 
       case .paragraph(let inlineContent):
-        return "<p>" + inlineContent.generateHTML(in: ctx) + "</p"
+        return "<p>" + inlineContent.generateHTML(in: ctx) + "</p>"
         
       case .aside(let style, let content):
         var ms = "<aside class='\(style.rawValue)'>" // ARIA?
