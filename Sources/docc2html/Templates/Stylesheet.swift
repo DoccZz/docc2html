@@ -22,15 +22,22 @@ body {
   margin:           0;
   font-synthesis:   none;
   -webkit-font-smoothing: antialiased;
-  line-spacing:     1em;
+}
+
+code {
+  font-family: "Menlo", monospace;
 }
 
 h1 {
-  font-size:     3em;
+  font-size:     2.4em;
   font-weight:   normal;
 }
 h2 {
-  font-size:     2.5em;
+  font-size:     2em;
+  font-weight:   normal;
+}
+h3 {
+  font-size:     1.5em;
   font-weight:   normal;
 }
 a {
@@ -47,7 +54,6 @@ nav {
   background-color: white;
   opacity:       0.95;
   
-  font-size:     1.2em;
   color:         #777;
   padding:       1em 3em 1em 3em;
   margin:        0;
@@ -76,11 +82,18 @@ nav .hierarchy li *::before {
 /* page title */
 
 main {
-  padding:       2em 3em 1em 3em;
+  padding:       2em 0em 1em 0em;
   margin:        0;
 }
+main .topictitle {
+  padding:       0em 3em 0em 3em;
+}
+main > .container {
+  padding:       0em 3em 0em 3em;
+}
+
 main .topictitle .eyebrow {
-  font-size:     1.5em;
+  font-size:     1.4em;
   color:         #777;
 }
 
@@ -88,20 +101,93 @@ main .topictitle .eyebrow {
 /* page content */
 
 main .description {
-  border-bottom: 1px solid #CCC;
-  padding-bottom: 3em;
+  border-bottom:  1px solid #CCC;
+  padding-bottom: 2em;
 }
 
 .description .abstract {
-  font-size: 1.5em;
+  font-size: 1.4em;
+}
+
+p > picture > img {
+  max-width: 100%;
 }
 
 div.content > p, div.content > p > a, div.content > p > code {
-  font-size:    1.3em;
-  line-spacing: 1.3em;
+  font-size:   1em;
+  line-height: 1.5em;
 }
 
 div.content > p > a > code {
   display: inline;
+}
+
+
+/* topics */
+
+section {
+  padding: 0em 3em 0em 3em;
+}
+
+section.alt-light {
+  background-color: #F7F7F7;
+}
+
+section h2 {
+  padding: 1.5em 0 1em 0;
+}
+
+/* contenttable */
+
+.contenttable h3 {
+  margin: 0;
+}
+.contenttable .row {
+  display:       flex;
+  align-items:   flex-start;
+  border-top:    1px solid #CCC;
+  padding:       2em 0 1em 0;
+}
+
+.contenttable .large-3 {
+  max-width:   25%;
+  flex-basis:  25%;
+  flex-grow:   0;
+  flex-shrink: 0;
+}
+.contenttable .large-9 {
+  max-width:   75%;
+  flex-basis:  75%;
+  flex-grow:   0;
+  flex-shrink: 0;
+}
+
+.link-block {
+  padding-bottom: 1em;
+}
+
+.section-content {
+  padding-left: 1em;
+}
+
+a code .decorator {
+  color: #777;
+}
+
+.topic .abstract .content {
+  padding: 1em 0 1em 3em;
+}
+
+/* declarations */
+
+.declaration-group pre {
+  border: 1px solid #CCC;
+  border-radius: 4px;
+  margin: 0;
+  padding: 0;
+}
+.declaration-group pre {
+  margin: 0;
+  padding: 0;
 }
 """

@@ -50,6 +50,7 @@ fileprivate let template = Mustache(
         </div>
       </div>
       <footer class="footer">{{{footerHTML}}}</footer>
+      <script>hljs.highlightAll();</script>
     </body>
   </html>
   """

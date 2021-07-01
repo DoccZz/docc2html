@@ -14,9 +14,7 @@ fileprivate let template = Mustache(
   <section id='declaration' class='declaration'>
     <h2>{{title}}</h2>
     <div class='declaration-group'>
-      <pre class='source indented'>
-        <code>{{{tokensHTML}}}</code>
-      </pre>
+      <pre class='source indented'><code>{{{tokensHTML}}}</code></pre>
     </div>
   </section>
   """
