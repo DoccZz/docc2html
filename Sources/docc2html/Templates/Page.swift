@@ -8,6 +8,22 @@
 
 import mustache
 
+#if false // attempt to reuse the stylesheets, but doesn't really fly
+  fileprivate let stylesheets = [
+    "documentation-topic.css",
+    "documentation-topic~topic~tutorials-overview.css",
+
+    // this hides the abstract: (because it is white on white)
+    // "topic.css",
+    // this hides stuff: maybe the CSS must be included per page type
+    // "tutorials-overview.css",
+    
+    "site.css"
+  ]
+#else
+  fileprivate let stylesheets = [ "site.css" ]
+#endif
+
 fileprivate let template = Mustache(
   """
   <!DOCTYPE html>
@@ -21,15 +37,9 @@ fileprivate let template = Mustache(
       
       <link rel="icon"       href="{{{relativePathToRoot}}}favicon.ico" />
       <link rel="mask-icon"  href="{{{relativePathToRoot}}}favicon.svg" color="#333333" />
-      <link rel="stylesheet" href="{{{cssPath}}}documentation-topic.css" />
-      <link rel="stylesheet" href="{{{cssPath}}}documentation-topic~topic~tutorials-overview.css" />
-  <!-- this hides the abstract: (because it is white on white)
-      <link rel="stylesheet" href="{{{cssPath}}}topic.css" />
-  -->
-  <!-- this hides stuff: maybe the CSS MUST be included per page type
-      <link rel="stylesheet" href="{{{cssPath}}}tutorials-overview.css" />
-    -->
-      <link rel="stylesheet" href="{{{cssPath}}}site.css" />
+      \(stylesheets.map {
+        "<link rel='stylesheet' href='{{{cssPath}}}\($0)' />"
+      }.joined(separator: "\n"))
       <link rel="stylesheet" href="{{{highlightCDN}}}/styles/default.min.css" />
       <script src="{{{highlightCDN}}}/highlight.min.js"></script>
     </head>
