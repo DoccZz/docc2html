@@ -8,7 +8,6 @@
 
 import Foundation
 import DocCArchive // @DoccZz
-import Macro       // @Macro-swift
 import Logging     // @apple/swift-log
 
 let fm = FileManager.default
@@ -21,7 +20,6 @@ guard let options = Options(argv: CommandLine.arguments) else {
 }
 
 LoggingSystem.bootstrap(options.logFactory)
-
 
 func loadArchives(_ pathes: [ String ]) -> [ DocCArchive ] {
   var archives = [ DocCArchive ]()
@@ -60,7 +58,7 @@ func ensureTargetDir(_ url: URL) {
   }
 }
 
-if !fs.existsSync(options.targetPath) {
+if !fm.fileExists(atPath: options.targetPath) {
   ensureTargetDir("")
 }
 else if !options.force {

@@ -1,4 +1,4 @@
-// swift-tools-version:5.2
+// swift-tools-version:5.0
 
 import PackageDescription
 
@@ -11,13 +11,12 @@ let package = Package(
     .package(url: "https://github.com/AlwaysRightInstitute/mustache.git",
              from: "1.0.1"),
     .package(url: "https://github.com/DoccZz/DocCArchive.git", from: "0.1.0"),
-    
-    // TODO: remove this dep, not really necessary for this exporter.
-    .package(url: "https://github.com/Macro-swift/Macro.git",  from: "0.8.10")
+    .package(url: "https://github.com/apple/swift-log.git",
+             from: "1.4.0")
   ],
   
   targets: [
     .target(name         : "docc2html",
-            dependencies : [ "DocCArchive", "mustache", "Macro" ])
+            dependencies : [ "DocCArchive", "mustache", "Logging" ])
   ]
 )

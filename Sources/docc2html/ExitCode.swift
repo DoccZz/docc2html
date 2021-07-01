@@ -23,6 +23,6 @@ func exit(_ error: ExitCode) -> Never {
 }
 func exit(_ error: Swift.Error) -> Never {
   if let error = error as? ExitCode { exit(error.rawValue) }
-  print("ERROR: Unexpected error:", error)
+  console.error("Unexpected error:", error)
   exit(42)
 }

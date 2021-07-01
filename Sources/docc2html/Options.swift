@@ -7,11 +7,11 @@
 //
 
 import Foundation
-import Macro
 import Logging
 
 func usage() {
-  let tool = path.basename(CommandLine.arguments.first ?? "docc2html")
+  let tool = URL(fileURLWithPath: CommandLine.arguments.first ?? "docc2html")
+              .lastPathComponent
   print(
     """
     Usage: \(tool) [-f/--force] <docc archive folders...> <target folder>
@@ -54,7 +54,7 @@ struct Options {
       return handler
     }
     
-    let pathes  = process.argv.dropFirst().filter { !$0.hasPrefix("-") }
+    let pathes  = argv.dropFirst().filter { !$0.hasPrefix("-") }
     guard pathes.count > 1 else { return nil }
     archivePathes = Array(pathes.dropLast())
     targetPath    = pathes.last ?? ""

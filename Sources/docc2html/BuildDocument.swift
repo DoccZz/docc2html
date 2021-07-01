@@ -8,7 +8,6 @@
 
 import Foundation
 import DocCArchive
-import Macro
 
 func buildDocument(_ document : DocCArchive.Document,
                    in  folder : DocCArchive.DocumentFolder,

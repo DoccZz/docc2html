@@ -90,7 +90,9 @@ extension DocCArchive.Fragment {
         spanClass = "identifier"
     }
 
-    if content.trim().isEmpty { spanClass += " empty-token" }
+    if content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+      spanClass += " empty-token"
+    }
 
     return "<span class='\(spanClass)'>\(contentHTML)</span>"
   }

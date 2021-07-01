@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Macro
 import Logging
 
 func copyRaw(_ files: [ URL ], to targetURL: URL, keepHash: Bool = true,

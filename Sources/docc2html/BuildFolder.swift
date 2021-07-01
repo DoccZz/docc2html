@@ -26,12 +26,13 @@ func buildFolder(_ folder: DocCArchive.DocumentFolder, into url: URL) {
           .lastPathComponent
       )
       
-      print("BUILD:", pageURL.path)
+      console.trace("build:", pageURL.path)
       let document = try folder.document(at: pageURL)
       try buildDocument(document, in: folder, to: htmlURL)
     }
     catch {
-      print("ERROR: Could not process document at:", pageURL.path, error)
+      console.error("ERROR: Could not process document at:",
+                    pageURL.path, error)
     }
   }
 }

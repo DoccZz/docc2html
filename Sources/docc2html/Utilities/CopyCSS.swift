@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Macro
 import Logging
 
 func copyCSS(_ cssFiles: [ URL ], to targetURL: URL, keepHash: Bool,
