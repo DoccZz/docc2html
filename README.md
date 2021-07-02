@@ -8,6 +8,7 @@ and packages:
 [Documenting a Swift Framework or Package](https://developer.apple.com/documentation/Xcode/documenting-a-swift-framework-or-package),
 to a static HTML site.
 
+Blog entry on the topic: [DocC 📚 Archived and Analyzed](https://www.alwaysrightinstitute.com/docz/).
 
 ## Usage
 
