@@ -14,21 +14,24 @@ fileprivate let template = Mustache(
   <main id="main" role="main" class="main">
     {{{topicTitleHTML}}}
     {{{primaryContentHTML}}}
+    {{{sectionsContentHTML}}}
     {{{topicSectionsHTML}}}
     {{{seeAlsoHTML}}}
   </main>
   """
 )
 
-func DocumentContent(navigationHTML     : String,
-                     topicTitleHTML     : String,
-                     primaryContentHTML : String,
-                     topicSectionsHTML  : String,
-                     seeAlsoHTML        : String) -> String
+func DocumentContent(navigationHTML      : String,
+                     topicTitleHTML      : String,
+                     primaryContentHTML  : String,
+                     sectionsContentHTML : String,
+                     topicSectionsHTML   : String,
+                     seeAlsoHTML         : String) -> String
 {
-  template(navigationHTML     : navigationHTML,
-           topicTitleHTML     : topicTitleHTML,
-           primaryContentHTML : primaryContentHTML,
-           topicSectionsHTML  : topicSectionsHTML,
-           seeAlsoHTML        : seeAlsoHTML)
+  template(navigationHTML      : navigationHTML,
+           topicTitleHTML      : topicTitleHTML,
+           primaryContentHTML  : primaryContentHTML,
+           sectionsContentHTML : sectionsContentHTML,
+           topicSectionsHTML   : topicSectionsHTML,
+           seeAlsoHTML         : seeAlsoHTML)
 }

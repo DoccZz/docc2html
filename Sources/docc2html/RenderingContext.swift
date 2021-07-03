@@ -24,6 +24,8 @@ final class RenderingContext {
   let references : [ String : DocCArchive.Reference ]
   let traits     : Set<DocCArchive.ImageReference.Variant.Trait>
                  = [ .light, .retina ]
+  
+  var activeStep = 0
 
   init(pathToRoot: String, references: [ String : DocCArchive.Reference ]) {
     self.pathToRoot = pathToRoot

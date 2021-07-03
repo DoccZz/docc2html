@@ -37,8 +37,28 @@ extension DocCArchive.Content {
         ms += "</aside>"
         return ms
       
-      case .step: // TODO: Steps
-        return "<p>NO RENDERING OF STEPS YET</p>"
+      case .step(let step):
+        ctx.activeStep += 1 // unfortunately the index is not part of the JSON
+      
+        let code : DocCArchive.DocCSchema.FileReference? = step.code.flatMap {
+          id in
+          
+          guard let ref = ctx[reference: id] else {
+            assertionFailure("did not find code id: \(id)")
+            return nil
+          }
+          guard case .file(let file) = ref else {
+            assertionFailure("code ref is not a file!: \(id) \(ref)")
+            return nil
+          }
+          return file
+        }
+        
+        return StepContent(step        : ctx.activeStep,
+                           contentHTML : step.content.generateHTML(in: ctx),
+                           captionHTML : step.caption.generateHTML(in: ctx),
+                           syntax      : code?.fileType.rawValue ?? "swift",
+                           lines       : code?.content ?? [])
 
       case .codeListing(let listing):
         return CodeListingContent(syntax: listing.syntax, lines: listing.code)

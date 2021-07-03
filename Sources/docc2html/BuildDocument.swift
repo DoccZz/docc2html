@@ -36,8 +36,8 @@ func buildDocument(_ document : DocCArchive.Document,
   } ?? ""
   
   // This is for tutorials, e.g. document.kind == .project
-  // they have no topicSections
-  assert(document.sections.isEmpty)
+  // they have no primaryContent/topicSections
+  let sectionsContent = document.sections.generateHTML(in: ctx)
   
   let topicSections = document.topicSections.flatMap { sections in
     BuildSections(title: "Topics", sectionID: "topics", sections: sections.map {
@@ -62,8 +62,9 @@ func buildDocument(_ document : DocCArchive.Document,
         topicTitleHTML:
           TopicTitle(eyebrow: document.metadata.roleHeading?.rawValue ?? "",
                                    title: document.metadata.title),
-        primaryContentHTML: primaryContent,
-        topicSectionsHTML: topicSections, seeAlsoHTML: seeAlso
+        primaryContentHTML  : primaryContent,
+        sectionsContentHTML : sectionsContent,
+        topicSectionsHTML   : topicSections, seeAlsoHTML: seeAlso
       )
   )
   
