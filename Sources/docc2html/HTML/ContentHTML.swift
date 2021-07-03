@@ -36,6 +36,9 @@ extension DocCArchive.Content {
         if style == .note { ms += "</p>" }
         ms += "</aside>"
         return ms
+      
+      case .step: // TODO: Steps
+        return "<p>NO RENDERING OF STEPS YET</p>"
 
       case .codeListing(let listing):
         return CodeListingContent(syntax: listing.syntax, lines: listing.code)
