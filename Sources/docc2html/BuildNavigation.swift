@@ -37,6 +37,13 @@ fileprivate extension DocCArchive.Document {
     items.reserveCapacity(referencePath.count)
     
     for ( idx, id ) in referencePath.reversed().enumerated() {
+      // TBD: what do to about:
+      //   "doc://SlothCreator/tutorials/SlothCreator/$volume"?
+      if id.hasSuffix("$volume") {
+        console.log("not processing $volume in navpath")
+        continue
+      }
+      
       guard let ref = context[reference: id] else {
         assert(context[reference: id] != nil, "missing hierarchy ref!")
         return nil
