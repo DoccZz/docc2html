@@ -8,6 +8,7 @@
 
 import Foundation
 import DocCArchive
+import DocCHTMLExporter
 
 func buildDocument(_ document : DocCArchive.Document,
                    in  folder : DocCArchive.DocumentFolder,
@@ -15,58 +16,12 @@ func buildDocument(_ document : DocCArchive.Document,
 {
   console.trace("Build:", document, "\n  to:", url.path)
   
-  let ctx = RenderingContext(
+  let ctx = DZRenderingContext(
     pathToRoot: String(repeating: "../", count: folder.level),
     references: document.references
   )
   
-  let navTitle = folder.path.first.flatMap {
-    if $0 == "documentation" { return "Documentation" }
-    if $0 == "tutorials"     { return "Tutorials" }
-    return nil
-  } ?? "Documentation"
-  
-  let navPath = document.buildNavigationPath(in: folder, with: ctx)
-  
-  let primaryContent = document.primaryContentSections.flatMap { sections in
-    PrimaryContent(
-      abstractHTML : document.abstract?.generateHTML(in: ctx) ?? "",
-      contentHTML  : sections.generateHTML(in: ctx)
-    )
-  } ?? ""
-  
-  // This is for tutorials, e.g. document.kind == .project
-  // they have no primaryContent/topicSections
-  let sectionsContent = document.sections.generateHTML(in: ctx)
-  
-  let topicSections = document.topicSections.flatMap { sections in
-    BuildSections(title: "Topics", sectionID: "topics", sections: sections.map {
-      $0.generateTemplateSection(in: ctx)
-    })
-  } ?? ""
-  
-  let seeAlso = document.seeAlsoSections.flatMap { sections in
-    BuildSections(title: "See Also", sectionID: "see-also",
-                  sections: sections.map
-    {
-      $0.generateTemplateSection(in: ctx)
-    })
-  } ?? ""
-
-  let html = Page(
-    relativePathToRoot: ctx.pathToRoot,
-    title: document.metadata.title + "| Documentation",
-    contentHTML:
-      DocumentContent(
-        navigationHTML: Navigation(title: navTitle, items: navPath),
-        topicTitleHTML:
-          TopicTitle(eyebrow: document.metadata.roleHeading?.rawValue ?? "",
-                                   title: document.metadata.title),
-        primaryContentHTML  : primaryContent,
-        sectionsContentHTML : sectionsContent,
-        topicSectionsHTML   : topicSections, seeAlsoHTML: seeAlso
-      )
-  )
+  let html = try ctx.buildDocument(document, in: folder)
   
   try html.write(to: url, atomically: false, encoding: .utf8)
 }

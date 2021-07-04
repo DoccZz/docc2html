@@ -11,7 +11,7 @@ import DocCArchive
 
 extension DocCArchive.Reference {
 
-  func generateHTML(isActive: Bool = true, in ctx: RenderingContext) -> String {
+  func generateHTML(isActive: Bool = true, in ctx: DZRenderingContext) -> String {
     var idURL : URL? { return URL(string: identifier) }
     
     switch self {
@@ -33,7 +33,7 @@ extension DocCArchive.Reference {
     return "<!-- unsupported reference \(identifier) -->"
   }
   
-  func generateURL(in ctx: RenderingContext) -> String {
+  func generateURL(in ctx: DZRenderingContext) -> String {
     var idURL : URL? { return URL(string: identifier) }
     
     switch self {
@@ -57,7 +57,7 @@ extension DocCArchive.Reference {
     return ""
   }
 
-  func generateDecoratedTitleHTML(in ctx: RenderingContext) -> String {
+  func generateDecoratedTitleHTML(in ctx: DZRenderingContext) -> String {
     switch self {
       case .image, .file, .unresolvable: return ""
 
@@ -76,7 +76,7 @@ extension DocCArchive.Reference {
     }
   }
 
-  func generateAbstractHTML(in ctx: RenderingContext) -> String {
+  func generateAbstractHTML(in ctx: DZRenderingContext) -> String {
     switch self {
     
       case .topic(let ref):
@@ -103,7 +103,7 @@ extension DocCArchive.TopicReference {
    * Generate an <a> for the topic reference.
    */
   func generateHTML(isActive: Bool = true, idURL: URL?,
-                    in ctx: RenderingContext) -> String
+                    in ctx: DZRenderingContext) -> String
   {
     let activeClass = isActive ? "" : " class='inactive'"
     let title       = self.title.htmlEscaped
@@ -133,7 +133,7 @@ extension DocCArchive.ImageReference {
    * Generate the `img` tag for the variant selected in the rendering context.
    * TBD: Good idea or not?
    */
-  func generateHTML(in ctx: RenderingContext) -> String {
+  func generateHTML(in ctx: DZRenderingContext) -> String {
     guard let variant = bestVariant(for: ctx.traits) else {
       assertionFailure("Got no image variant?")
       return "<!-- invalid image ref -->\(alt.htmlEscaped)"

@@ -11,14 +11,14 @@ import DocCArchive
 
 extension Sequence where Element == DocCArchive.Section {
   
-  func generateHTML(in ctx: RenderingContext) -> String {
+  func generateHTML(in ctx: DZRenderingContext) -> String {
     map { $0.generateHTML(in: ctx) }.joined()
   }
 }
 
 extension DocCArchive.Section {
 
-  func generateHTML(in ctx: RenderingContext) -> String {
+  func generateHTML(in ctx: DZRenderingContext) -> String {
     // has title, identifiers, generated and kind
     switch self.kind {
       case .content(let content):
@@ -61,7 +61,7 @@ extension DocCArchive.Section {
 
 extension DocCArchive.Section {
   
-  func generateTemplateSection(in ctx: RenderingContext) -> Section {
+  func generateTemplateSection(in ctx: DZRenderingContext) -> Section {
     Section(title: self.title ?? "??", items: self.identifiers.compactMap {
       guard let ref = ctx.references[$0.url.absoluteString] else {
         return nil

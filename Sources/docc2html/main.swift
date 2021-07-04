@@ -7,8 +7,9 @@
 //
 
 import Foundation
-import DocCArchive // @DoccZz
-import Logging     // @apple/swift-log
+import DocCArchive      // @DoccZz
+import DocCHTMLExporter // @DoccZz/docc2html
+import Logging          // @apple/swift-log
 
 let fm = FileManager.default
 
@@ -94,7 +95,8 @@ func copyStaticResources(of archives: [ DocCArchive ]) {
   
   do {
     let siteCSS = ensureTargetDir("css").appendingPathComponent("site.css")
-    try stylesheet.write(to: siteCSS, atomically: false, encoding: .utf8)
+    try DZRenderingContext.defaultStyleSheet
+          .write(to: siteCSS, atomically: false, encoding: .utf8)
   }
   catch {
     console.log("Failed to write custom stylesheet:", error)

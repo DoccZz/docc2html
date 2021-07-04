@@ -5,7 +5,11 @@ import PackageDescription
 let package = Package(
   name      : "docc2html",
   platforms : [ .macOS(.v10_14), .iOS(.v11) ],
-  products  : [ .executable(name: "docc2html", targets: [ "docc2html" ]) ],
+  
+  products  : [
+    .library   (name: "DocCHTMLExporter", targets: [ "DocCHTMLExporter" ]),
+    .executable(name: "docc2html",        targets: [ "docc2html"        ])
+  ],
   
   dependencies: [
     .package(url: "https://github.com/AlwaysRightInstitute/mustache.git",
@@ -16,7 +20,9 @@ let package = Package(
   ],
   
   targets: [
+    .target(name         : "DocCHTMLExporter",
+            dependencies : [ "DocCArchive", "mustache", "Logging" ]),
     .target(name         : "docc2html",
-            dependencies : [ "DocCArchive", "mustache", "Logging" ])
+            dependencies : [ "DocCHTMLExporter", "Logging" ])
   ]
 )

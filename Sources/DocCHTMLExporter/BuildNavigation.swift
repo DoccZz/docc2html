@@ -12,7 +12,7 @@ import DocCArchive
 extension DocCArchive.Document {
   
   func buildNavigationPath(in   folder  : DocCArchive.DocumentFolder,
-                           with context : RenderingContext)
+                           with context : DZRenderingContext)
        -> [ NavigationItem ]
   {
     let navPath = hierarchy.paths.first.flatMap {
@@ -27,7 +27,7 @@ extension DocCArchive.Document {
 fileprivate extension DocCArchive.Document {
   
   func buildNavigationPath(for referencePath : [ String ],
-                           in        context : RenderingContext)
+                           in        context : DZRenderingContext)
        -> [ NavigationItem ]?
   {
     guard !referencePath.isEmpty else { return [] }
@@ -40,7 +40,7 @@ fileprivate extension DocCArchive.Document {
       // TBD: what do to about:
       //   "doc://SlothCreator/tutorials/SlothCreator/$volume"?
       if id.hasSuffix("$volume") {
-        console.log("not processing $volume in navpath")
+        context.logger.log("not processing $volume in navpath")
         continue
       }
       

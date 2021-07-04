@@ -1,37 +1,52 @@
 //
-//  RenderingContext.swift
+//  DZRenderingContext.swift
 //  docc2html
 //
 //  Created by Helge Heß.
 //  Copyright © 2021 ZeeZide GmbH. All rights reserved.
 //
 
-import DocCArchive // @DocZ
 import struct Foundation.URL
+import DocCArchive
+import Logging
 
-fileprivate let ModuleToExternalURL : [ String : URL ] = [
-  "Foundation":
-    URL(string: "https://developer.apple.com/documentation/foundation/")!,
-  "AppKit":
-    URL(string: "https://developer.apple.com/documentation/appkit/")!,
-  "UIKit":
-    URL(string: "https://developer.apple.com/documentation/uikit/")!
-]
+/**
+ * The object is used for rendering a single document. Not intended to be
+ * invoked multiple times.
+ */
+public final class DZRenderingContext {
 
-final class RenderingContext {
+  public static let defaultStyleSheet = stylesheet
   
+  struct Labels {
+    let documentation = "Documentation"
+    let tutorials     = "Tutorials"
+    let topics        = "Topics"
+    let seeAlso       = "See Also"
+  }
+  
+  let logger     : Logger
+  let labels     = Labels()
+
   let pathToRoot : String
   let references : [ String : DocCArchive.Reference ]
   let traits     : Set<DocCArchive.ImageReference.Variant.Trait>
                  = [ .light, .retina ]
   
-  var activeStep = 0
+  let moduleToExternalURL : [ String : URL ] = ModuleToExternalURL
 
-  init(pathToRoot: String, references: [ String : DocCArchive.Reference ]) {
+  
+  var activeStep = 0
+  
+  public init(pathToRoot : String,
+              references : [ String : DocCArchive.Reference ],
+              logger     : Logger = Logger(label: "docc2html"))
+  {
     self.pathToRoot = pathToRoot
     self.references = references
+    self.logger     = logger
   }
-  
+    
   
   // MARK: - URLs
   
@@ -44,7 +59,7 @@ final class RenderingContext {
   }
   
   func externalDocumentBaseURL(for module: String) -> URL? {
-    return ModuleToExternalURL[module]
+    return moduleToExternalURL[module]
   }
   func externalURLForTypeID(_ id: DocCArchive.DocCSchema.TypeIdentifier?)
        -> URL?
