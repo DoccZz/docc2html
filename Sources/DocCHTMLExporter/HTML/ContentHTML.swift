@@ -53,15 +53,16 @@ extension DocCArchive.Content {
           }
           return file
         }
-        
-        return StepContent(step        : ctx.activeStep,
-                           contentHTML : step.content.generateHTML(in: ctx),
-                           captionHTML : step.caption.generateHTML(in: ctx),
-                           syntax      : code?.fileType.rawValue ?? "swift",
-                           lines       : code?.content ?? [])
 
+        return ctx.renderStep(ctx.activeStep,
+                              contentHTML : step.content.generateHTML(in: ctx),
+                              captionHTML : step.caption.generateHTML(in: ctx),
+                              syntax      : code?.fileType.rawValue ?? "swift",
+                              lines       : code?.content ?? [])
+        
       case .codeListing(let listing):
-        return CodeListingContent(syntax: listing.syntax, lines: listing.code)
+        return ctx.renderCodeListing(syntax: listing.syntax,
+                                     lines: listing.code)
     }
   }
 }

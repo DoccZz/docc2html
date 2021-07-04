@@ -11,7 +11,7 @@ import mustache
 // TODO: do something w/ the media stuff
 // the app itself does a lot of extra div's for the modal overlay presentation
 // (not sure why they call those 'modal', there seems nothing modal about them)
-fileprivate let template = Mustache(
+let StepTemplate = Mustache(
   """
   <div class="step-container step-{{step}}">
     <div data-index="{{stepIndex}}" class="step">
@@ -32,25 +32,27 @@ fileprivate let template = Mustache(
   """
 )
 
-func StepContent(step        : Int,
-                 contentHTML : String,
-                 captionHTML : String,
-                 syntax      : String = "Swift", lines: [ String ])
-     -> String
-{
-  struct Line {
-    let line : Int
-    let code : String
-  }
-  return template(
-    step        : step,
-    stepIndex   : step - 1,
-    contentHTML : contentHTML,
-    captionHTML : captionHTML,
-    syntax      : syntax,
-    hasCode     : !lines.isEmpty,
-    lines       : lines.enumerated().map { idx, code in
-      Line(line: idx + 1, code: code)
+extension DZRenderingContext {
+  
+  func renderStep(_ step      : Int,
+                  contentHTML : String,
+                  captionHTML : String,
+                  syntax      : String = "Swift", lines: [ String ]) -> String
+  {
+    struct Line {
+      let line : Int
+      let code : String
     }
-  )
+    return templates.step(
+      step        : step,
+      stepIndex   : step - 1,
+      contentHTML : contentHTML,
+      captionHTML : captionHTML,
+      syntax      : syntax,
+      hasCode     : !lines.isEmpty,
+      lines       : lines.enumerated().map { idx, code in
+        Line(line: idx + 1, code: code)
+      }
+    )
+  }
 }

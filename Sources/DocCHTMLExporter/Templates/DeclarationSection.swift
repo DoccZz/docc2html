@@ -9,7 +9,7 @@
 import mustache
 
 // FIXME: This is slightly wrong, we need to loop over the declarations within.
-fileprivate let template = Mustache(
+let DeclarationSectionTemplate = Mustache(
   """
   <section id='declaration' class='declaration'>
     <h2>{{title}}</h2>
@@ -20,8 +20,12 @@ fileprivate let template = Mustache(
   """
 )
 
-func DeclarationSection(title: String = "Declaration", tokensHTML: String)
-     -> String
-{
-  template(title: title, tokensHTML: tokensHTML)
+extension DZRenderingContext {
+  
+  func renderDeclarationSection(title: String? = nil, tokensHTML: String)
+       -> String
+  {
+    return templates.declarationSection(title: title ?? labels.declaration,
+                                        tokensHTML: tokensHTML)
+  }
 }

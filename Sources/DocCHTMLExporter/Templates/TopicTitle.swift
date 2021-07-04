@@ -9,7 +9,7 @@
 
 import mustache
 
-fileprivate let template = Mustache(
+let TopicTitleTemplate = Mustache(
   """
   <div class="topictitle">
     <span class="eyebrow">{{eyebrow}}</span>
@@ -18,6 +18,10 @@ fileprivate let template = Mustache(
   """
 )
 
-func TopicTitle(eyebrow: String = "Framework", title: String) -> String {
-  template(title: title, eyebrow: eyebrow)
+extension DZRenderingContext {
+  
+  func renderTopicTitle(eyebrow: String? = nil, title: String) -> String {
+    return templates.topicTitle(title   : title,
+                                eyebrow : eyebrow ?? labels.framework)
+  }
 }

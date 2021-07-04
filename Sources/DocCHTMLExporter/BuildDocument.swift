@@ -10,6 +10,7 @@ import DocCArchive
 
 public extension DZRenderingContext {
   
+  /// The main entry function, renders a full HTML page for the given document.
   func buildDocument(_ document : DocCArchive.Document,
                      in  folder : DocCArchive.DocumentFolder) throws -> String
   {
@@ -24,7 +25,7 @@ public extension DZRenderingContext {
     let navPath = document.buildNavigationPath(in: folder, with: self)
     
     let primaryContent = document.primaryContentSections.flatMap { sections in
-      PrimaryContent(
+      renderPrimaryContentGrid(
         abstractHTML : document.abstract?.generateHTML(in: self) ?? "",
         contentHTML  : sections.generateHTML(in: self)
       )
@@ -35,30 +36,31 @@ public extension DZRenderingContext {
     let sectionsContent = document.sections.generateHTML(in: self)
     
     let topicSections = document.topicSections.flatMap { sections in
-      BuildSections(title: labels.topics, sectionID: "topics",
-                    sections: sections.map
+      renderContentTableSection(title: labels.topics, sectionID: "topics",
+                                sections: sections.map
       {
         $0.generateTemplateSection(in: self)
       })
     } ?? ""
     
     let seeAlso = document.seeAlsoSections.flatMap { sections in
-      BuildSections(title: labels.seeAlso, sectionID: "see-also",
-                    sections: sections.map
+      renderContentTableSection(title: labels.seeAlso, sectionID: "see-also",
+                                sections: sections.map
       {
         $0.generateTemplateSection(in: self)
       })
     } ?? ""
 
-    let html = Page(
-      relativePathToRoot: self.pathToRoot,
-      title: document.metadata.title + "| Documentation",
+    let html = renderHTML(
+      relativePathToRoot: pathToRoot,
+      title: document.metadata.title + "| \(labels.documentation)",
       contentHTML:
-        DocumentContent(
-          navigationHTML: Navigation(title: navTitle, items: navPath),
+        renderDocumentContent(
+          navigationHTML: renderNavigation(title: navTitle, items: navPath),
           topicTitleHTML:
-            TopicTitle(eyebrow: document.metadata.roleHeading?.rawValue ?? "",
-                                     title: document.metadata.title),
+            renderTopicTitle(eyebrow : document.metadata.roleHeading?.rawValue
+                                    ?? "",
+                             title   : document.metadata.title),
           primaryContentHTML  : primaryContent,
           sectionsContentHTML : sectionsContent,
           topicSectionsHTML   : topicSections, seeAlsoHTML: seeAlso

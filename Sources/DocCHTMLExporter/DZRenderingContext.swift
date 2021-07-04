@@ -9,6 +9,7 @@
 import struct Foundation.URL
 import DocCArchive
 import Logging
+import mustache
 
 /**
  * The object is used for rendering a single document. Not intended to be
@@ -18,33 +19,98 @@ public final class DZRenderingContext {
 
   public static let defaultStyleSheet = stylesheet
   
-  struct Labels {
-    let documentation = "Documentation"
-    let tutorials     = "Tutorials"
-    let topics        = "Topics"
-    let seeAlso       = "See Also"
+  public struct Labels {
+    public var documentation = "Documentation"
+    public var tutorials     = "Tutorials"
+    public var topics        = "Topics"
+    public var seeAlso       = "See Also"
+    public var declaration   = "Declaration"
+    public var parameters    = "Parameters"
+    public var framework     = "Framework"
   }
   
-  let logger     : Logger
-  let labels     = Labels()
+  public struct Templates {
+    // refer to them using this struct, to make them configurable later on.
+    
+    /// Arguments:
+    /// relativePathToRoot, highlightCDN, contentHTML, footerHTML, title,
+    /// cssPath
+    public var htmlWrapper         : Mustache = PageTemplate
+    
+    /// Generates the navigation and the outer `main` tag.
+    /// Arguments:
+    //  navigationHTML, topicTitleHTML, primaryContentHTML, sectionsContentHTML,
+    //  topicSectionsHTML, seeAlsoHTML,
+    public var documentContent     : Mustache = DocumentContentTemplate
+    
+    /// Arguments: title, items(title,isCurrent,link)
+    public var navigation          : Mustache = NavigationTemplate
 
-  let pathToRoot : String
-  let references : [ String : DocCArchive.Reference ]
-  let traits     : Set<DocCArchive.ImageReference.Variant.Trait>
-                 = [ .light, .retina ]
+    /// Arguments: abstractHTML, contentHTML
+    public var primaryContentGrid  : Mustache = PrimaryContentGridTemplate
+    
+    /// Arguments: syntax, lines(line/code)
+    public var codeListing         : Mustache = CodeListingTemplate
+    
+    /// Arguments:
+    /// step, stepIndex, contentHTML, captionHTML, syntax, hasCode, lines
+    public var step                : Mustache = StepTemplate
+    
+    /// Arguments: title, tokensHTML
+    public var declarationSection  : Mustache = DeclarationSectionTemplate
+    
+    /// Arguments: title, parameters(name,contentHTML)
+    public var parametersSection   : Mustache = ParametersSectionTemplate
+    
+    /// This is used for Topics and See Also
+    /// Arguments:
+    /// title, sectionID,
+    /// sections(tile,items(url, decoratedTitleHTML, title, abstractHTML,
+    ///                     isDeprecated))
+    public var contentTableSection : Mustache = ContentTableSectionTemplate
+    
+    /// Arguments: title, eyebrow
+    public var topicTitle          : Mustache = TopicTitleTemplate
+  }
   
-  let moduleToExternalURL : [ String : URL ] = ModuleToExternalURL
+  let logger              : Logger
 
+  let pathToRoot          : String
+  let references          : [ String : DocCArchive.Reference ]
+  let traits              : Set<DocCArchive.ImageReference.Variant.Trait>
+                          = [ .light, .retina ]
+  
+  let labels              : Labels
+  let templates           : Templates
+  let moduleToExternalURL : [ String : URL ]
+  let highlightCDN        =
+        "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.0.1"
   
   var activeStep = 0
   
-  public init(pathToRoot : String,
-              references : [ String : DocCArchive.Reference ],
-              logger     : Logger = Logger(label: "docc2html"))
+  /**
+   * Parameters:
+   * - pathToRoot: The relative path to the root folder (containing css etc)
+   * - references: DocCArchive references available for resolution
+   * - templates:  The Mustache templates to be used for rendering
+   * - labels:     The labels to be used for rendering
+   * - moduleToExternalURL: Optional map of modules (like Foundation) to an
+   *                        external site hosting documentation for those.
+   * - logger:     The Logger to be used (defaults to `docc2html`)
+   */
+  public init(pathToRoot          : String,
+              references          : [ String : DocCArchive.Reference ],
+              templates           : Templates?        = nil,
+              labels              : Labels?           = nil,
+              moduleToExternalURL : [ String : URL ]? = nil,
+              logger              : Logger = Logger(label: "docc2html"))
   {
-    self.pathToRoot = pathToRoot
-    self.references = references
-    self.logger     = logger
+    self.pathToRoot          = pathToRoot
+    self.references          = references
+    self.templates           = templates ?? Templates()
+    self.labels              = labels    ?? Labels()
+    self.moduleToExternalURL = moduleToExternalURL ?? ModuleToExternalURL
+    self.logger              = logger
   }
     
   

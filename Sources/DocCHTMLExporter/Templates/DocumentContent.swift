@@ -8,7 +8,7 @@
 
 import mustache
 
-fileprivate let template = Mustache(
+let DocumentContentTemplate = Mustache(
   """
   {{{navigationHTML}}}
   <main id="main" role="main" class="main">
@@ -21,17 +21,21 @@ fileprivate let template = Mustache(
   """
 )
 
-func DocumentContent(navigationHTML      : String,
-                     topicTitleHTML      : String,
-                     primaryContentHTML  : String,
-                     sectionsContentHTML : String,
-                     topicSectionsHTML   : String,
-                     seeAlsoHTML         : String) -> String
-{
-  template(navigationHTML      : navigationHTML,
-           topicTitleHTML      : topicTitleHTML,
-           primaryContentHTML  : primaryContentHTML,
-           sectionsContentHTML : sectionsContentHTML,
-           topicSectionsHTML   : topicSectionsHTML,
-           seeAlsoHTML         : seeAlsoHTML)
+extension DZRenderingContext {
+
+  /// Generates the navigation and the outer `main` tag.
+  func renderDocumentContent(navigationHTML      : String,
+                             topicTitleHTML      : String,
+                             primaryContentHTML  : String,
+                             sectionsContentHTML : String,
+                             topicSectionsHTML   : String,
+                             seeAlsoHTML         : String) -> String
+  {
+    return templates.documentContent(navigationHTML      : navigationHTML,
+                                     topicTitleHTML      : topicTitleHTML,
+                                     primaryContentHTML  : primaryContentHTML,
+                                     sectionsContentHTML : sectionsContentHTML,
+                                     topicSectionsHTML   : topicSectionsHTML,
+                                     seeAlsoHTML         : seeAlsoHTML)
+  }
 }

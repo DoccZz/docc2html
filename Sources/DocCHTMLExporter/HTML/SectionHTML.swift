@@ -39,8 +39,9 @@ extension DocCArchive.Section {
         // languages/platforms combinations?
         // FIXME: This is slightly wrong, it needs to be done in the template
         return declarations.map {
-                 DeclarationSection(tokensHTML: $0.tokens.generateHTML(in: ctx))
-               }.joined()
+          ctx.renderDeclarationSection(
+                tokensHTML: $0.tokens.generateHTML(in: ctx))
+        }.joined()
         
       case .hero(let section):
         fatalError("not implemented \(section)")
@@ -48,7 +49,7 @@ extension DocCArchive.Section {
         fatalError("not implemented \(section)")
 
       case .parameters(let parameters):
-        return ParametersSection(parameters: parameters.map {
+        return ctx.renderParametersSection(parameters: parameters.map {
           .init(name: $0.name, contentHTML: $0.content.generateHTML(in: ctx))
         })
       
