@@ -57,10 +57,19 @@ fileprivate extension DocCArchive.Document {
       let idURL = ref.identifierURL
       assert(idURL != nil)
 
-      let hierarchy = String(repeating: "../", count: idx + 1)
-      let relURL    = hierarchy
-                    + (idURL?.appendingPathExtension("html").lastPathComponent
-                    ?? "index.html")
+      let relURL : String = {
+        let needsStepUp = !context.indexLinks || context.isIndex
+        let hierarchy =
+          String(repeating: "../", count: idx + (needsStepUp ? 1 : 0))
+        if context.indexLinks {
+          return hierarchy + "index.html"
+        }
+        else {
+          return hierarchy
+               + (idURL?.appendingPathExtension("html").lastPathComponent
+              ?? "index.html")
+        }
+      }()
       items.insert(
         NavigationItem(title: tr.title, isCurrent: false, link: relURL),
         at: 0
@@ -84,7 +93,7 @@ fileprivate extension DocCArchive.DocumentFolder {
         // FIXME: Here we somehow need to figure out the real title, is this
         //        NOT in the JSON? Feels weird.
         NavigationItem(title: title, isCurrent: false,
-                       link: String(repeating: "../", count: idx + 1)
+                       link: String(repeating: "../", count: idx)
                         .appending("index.html"))
       }.reversed()
     )

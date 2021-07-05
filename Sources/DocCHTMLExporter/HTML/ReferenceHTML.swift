@@ -11,13 +11,13 @@ import DocCArchive
 
 extension DocCArchive.Reference {
 
-  func generateHTML(isActive: Bool = true, in ctx: DZRenderingContext) -> String {
-    var idURL : URL? { return URL(string: identifier) }
-    
+  func generateHTML(isActive: Bool = true, in ctx: DZRenderingContext)
+       -> String
+  {
     switch self {
     
       case .topic(let ref):
-        return ref.generateHTML(isActive: isActive, idURL: idURL, in: ctx)
+        return ref.generateHTML(isActive: isActive, in: ctx)
         
       case .image(let ref):
         return ref.generateHTML(in: ctx)
@@ -39,12 +39,12 @@ extension DocCArchive.Reference {
     switch self {
     
       case .topic(let ref):
-        guard let url = ref.url ?? idURL else { return "" }
-        return ctx.makeRelativeToRoot(url) + ".html"
-
+        guard let url = idURL ?? ref.url  else { return "" }
+        return ctx.linkToDocument(url)
+      
       case .image(let ref):
         guard let variant = ref.bestVariant(for: ctx.traits) else { return "" }
-        return ctx.makeRelativeToRoot(variant.url)
+        return ctx.linkToResource(variant.url)
         
       case .file(_):
         fatalError("unsupported file ref")
@@ -102,14 +102,18 @@ extension DocCArchive.TopicReference {
   /**
    * Generate an <a> for the topic reference.
    */
-  func generateHTML(isActive: Bool = true, idURL: URL?,
+  func generateHTML(isActive: Bool = true,
                     in ctx: DZRenderingContext) -> String
   {
+    let idURL = URL(string: identifier)
+    assert(idURL != nil, "topic refs should always have proper URLs")
+    assert(idURL?.scheme == "doc", "topic ref w/o a doc:// URL")
+
     let activeClass = isActive ? "" : " class='inactive'"
     let title       = self.title.htmlEscaped
-    let url = (self.url ?? idURL).flatMap {
-      ctx.makeRelativeToRoot($0.appendingPathExtension("html"))
-    } ?? ""
+    
+    let url = (idURL ?? self.url).flatMap(ctx.linkToDocument) ?? ""
+    assert(!url.isEmpty)
 
     var ms = ""
     if !url.isEmpty { ms += "<a href='\(url.htmlEscaped)'\(activeClass)>" }
@@ -151,7 +155,7 @@ extension DocCArchive.ImageReference {
       }
     }()
     
-    let url    = ctx.makeRelativeToRoot(variant.url)
+    let url    = ctx.linkToResource(variant.url)
     let srcset = url.htmlEscaped
                + (ctx.traits.contains(.retina) ? " 2x" : "")
 
