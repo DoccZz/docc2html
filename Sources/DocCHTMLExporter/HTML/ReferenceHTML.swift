@@ -11,13 +11,13 @@ import DocCArchive
 
 extension DocCArchive.Reference {
 
-  func generateHTML(isActive: Bool = true, in ctx: DZRenderingContext) -> String {
-    var idURL : URL? { return URL(string: identifier) }
-    
+  func generateHTML(isActive: Bool = true, in ctx: DZRenderingContext)
+       -> String
+  {
     switch self {
     
       case .topic(let ref):
-        return ref.generateHTML(isActive: isActive, idURL: idURL, in: ctx)
+        return ref.generateHTML(isActive: isActive, in: ctx)
         
       case .image(let ref):
         return ref.generateHTML(in: ctx)
@@ -102,11 +102,15 @@ extension DocCArchive.TopicReference {
   /**
    * Generate an <a> for the topic reference.
    */
-  func generateHTML(isActive: Bool = true, idURL: URL?,
+  func generateHTML(isActive: Bool = true,
                     in ctx: DZRenderingContext) -> String
   {
+    let idURL = URL(string: identifier)
+    assert(idURL != nil, "topic refs should always have proper URLs")
+    
     let activeClass = isActive ? "" : " class='inactive'"
     let title       = self.title.htmlEscaped
+    
     let url = (self.url ?? idURL).flatMap {
       ctx.makeRelativeToRoot($0.appendingPathExtension("html"))
     } ?? ""
