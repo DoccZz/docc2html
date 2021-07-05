@@ -17,12 +17,12 @@ open class DocCStaticExporter {
     public let rawValue : UInt8
     public init(rawValue: UInt8) { self.rawValue = rawValue }
 
-    static let force          = Options(rawValue: 1 << 0)
-    static let keepHash       = Options(rawValue: 1 << 1)
-    static let copySystemCSS  = Options(rawValue: 1 << 3)
-    static let buildIndex     = Options(rawValue: 1 << 4)
-    static let buildAPIDocs   = Options(rawValue: 1 << 5)
-    static let buildTutorials = Options(rawValue: 1 << 6)
+    public static let force          = Options(rawValue: 1 << 0)
+    public static let keepHash       = Options(rawValue: 1 << 1)
+    public static let copySystemCSS  = Options(rawValue: 1 << 2)
+    public static let buildIndex     = Options(rawValue: 1 << 3)
+    public static let buildAPIDocs   = Options(rawValue: 1 << 4)
+    public static let buildTutorials = Options(rawValue: 1 << 5)
   }
   
   public let logger      : Logger
@@ -31,8 +31,8 @@ open class DocCStaticExporter {
   public let archiveURLs : [ URL ]
   public let stylesheet  = DZRenderingContext.defaultStyleSheet
 
-  init(target: DocCStaticExportTarget, archivePathes: [ String ],
-       options: Options, logger: Logger = Logger(label: "docc2html"))
+  public init(target: DocCStaticExportTarget, archivePathes: [ String ],
+              options: Options, logger: Logger = Logger(label: "docc2html"))
   {
     self.target      = target
     self.archiveURLs = archivePathes.map(URL.init(fileURLWithPath:))
@@ -48,7 +48,7 @@ open class DocCStaticExporter {
     else if !options.contains(.force) {
       logger.error("Target directory exists (call w/ -f/--force to overwrite):",
                    target)
-      throw ExitCode.targetDirectoryExists
+      throw DocCStaticExportError.targetExists(target)
     }
     else {
       logger.log("Existing output dir:", target)
@@ -70,7 +70,7 @@ open class DocCStaticExporter {
       }
       catch {
         logger.error("Does not look like a .doccarchive:", error)
-        throw ExitCode.expectedDocCArchive
+        throw DocCStaticExportError.expectedDocCArchive(url)
       }
     }
     return archives

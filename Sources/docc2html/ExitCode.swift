@@ -8,8 +8,8 @@
 
 import Foundation
 import Logging
+import DocCStaticExporter
 
-// TBD: Maybe make that rather a special kind of exception
 enum ExitCode: Int32, Swift.Error {
   case notEnoughArguments            = 1
   case expectedDocCArchive           = 2
@@ -17,6 +17,19 @@ enum ExitCode: Int32, Swift.Error {
   case targetDirectoryExists         = 4
   case couldNotLoadStaticResource    = 5
   case couldNotCopyStaticResource    = 6
+}
+
+extension ExitCode {
+  
+  init(_ error: DocCStaticExportError) {
+    switch error {
+      case .targetExists                 : self = .targetDirectoryExists
+      case .expectedDocCArchive          : self = .expectedDocCArchive
+      case .couldNotLoadStaticResource   : self = .couldNotLoadStaticResource
+      case .couldNotCopyStaticResource   : self = .couldNotCopyStaticResource
+      case .couldNotCreateTargetDirectory: self = .couldNotCreateTargetDirectory
+    }
+  }
 }
 
 func exit(_ error: ExitCode) -> Never {

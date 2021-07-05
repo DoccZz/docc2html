@@ -7,9 +7,8 @@
 //
 
 import Foundation
-import Logging // @apple/swift-log
-
-// MARK: - Parse Commandline Arguments & Usage
+import Logging            // @apple/swift-log
+import DocCStaticExporter // @docczz/docc2html
 
 guard let options = Options(argv: CommandLine.arguments) else {
   usage()
@@ -28,9 +27,7 @@ do {
   try exporter.export()
 }
 catch let error as DocCStaticExportError {
-  switch error {
-    // add cases as they arrive
-  }
+  exit(ExitCode(error).rawValue)
 }
 catch let error as ExitCode {
   exit(error.rawValue)

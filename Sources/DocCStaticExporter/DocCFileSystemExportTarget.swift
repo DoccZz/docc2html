@@ -47,9 +47,9 @@ open class DocCFileSystemExportTarget: DocCStaticExportTarget,
                           .stringByRemovingDocCDataReferences()
       }
       catch {
-        // TODO: Wrap in Own Error
         logger.error("Failed to load CSS:", css.path)
-        throw ExitCode.couldNotLoadStaticResource
+        throw DocCStaticExportError
+                .couldNotLoadStaticResource(css, underlyingError: error)
       }
       
       let targetName = keepHash
@@ -65,9 +65,9 @@ open class DocCFileSystemExportTarget: DocCStaticExportTarget,
                               encoding: .utf8)
       }
       catch {
-        // TODO: Wrap in Own Error
         logger.error("Failed to save CSS:", cssTargetURL.path)
-        throw ExitCode.couldNotCopyStaticResource
+        throw DocCStaticExportError
+                .couldNotCopyStaticResource(from: css, to: "css")
       }
     }
   }
@@ -78,7 +78,7 @@ open class DocCFileSystemExportTarget: DocCStaticExportTarget,
     guard !files.isEmpty else { return }
     
     let targetURL = self.targetURL.appendingPathComponent(directory)
-    try ensureTargetDir(targetURL)
+    try ensureTargetDir(directory)
 
     for file in files {
       let targetName = keepHash
@@ -96,9 +96,9 @@ open class DocCFileSystemExportTarget: DocCStaticExportTarget,
         try fileManager.copyItem(at: file, to: fileTargetURL)
       }
       catch {
-        // TODO: Wrap in Own Error
         logger.error("Failed to copy resource:", fileTargetURL.path, error)
-        throw ExitCode.couldNotCopyStaticResource
+        throw DocCStaticExportError
+                .couldNotCopyStaticResource(from: file, to: directory)
       }
     }
   }
@@ -117,19 +117,19 @@ open class DocCFileSystemExportTarget: DocCStaticExportTarget,
 
   open func ensureTargetDir(_ relativePath: String) throws {
     var url = targetURL
-    if !relativePath.isEmpty { url.appendPathComponent(relativePath) }
-    try ensureTargetDir(url)
-  }
-  
-  private func ensureTargetDir(_ url: URL) throws {
+    if !relativePath.isEmpty {
+      url.appendPathComponent(relativePath)
+    }
+    
     do {
       try fileManager
-        .createDirectory(at: url, withIntermediateDirectories: true)
+            .createDirectory(at: url, withIntermediateDirectories: true)
       logger.trace("Created output subdir:", url.path)
     }
     catch {
       logger.error("Could not create target directory:", url.path, error)
-      throw ExitCode.couldNotCreateTargetDirectory
+      throw DocCStaticExportError
+            .couldNotCreateTargetDirectory(relativePath, underlyingError: error)
     }
   }
 
