@@ -16,6 +16,11 @@ public extension DZRenderingContext {
   {
     logger.trace("Build:", document.identifier.url.lastPathComponent)
     
+    let hasHero : Bool = {
+      if case .hero = document.sections.first?.kind { return true }
+      return false
+    }()
+    
     let navTitle = folder.path.first.flatMap {
       if $0 == "documentation" { return labels.documentation }
       if $0 == "tutorials"     { return labels.tutorials }
@@ -33,8 +38,9 @@ public extension DZRenderingContext {
     
     // This is for tutorials, e.g. document.kind == .project
     // they have no primaryContent/topicSections
-    let sectionsContent = document.sections.generateHTML(in: self)
-    
+    let sectionsContent = document.sections.isEmpty ? ""
+                        : document.sections.generateHTML(in: self)
+
     let topicSections = document.topicSections.flatMap { sections in
       renderContentTableSection(title: labels.topics, sectionID: "topics",
                                 sections: sections.map
@@ -58,9 +64,10 @@ public extension DZRenderingContext {
         renderDocumentContent(
           navigationHTML: renderNavigation(title: navTitle, items: navPath),
           topicTitleHTML:
-            renderTopicTitle(eyebrow : document.metadata.roleHeading?.rawValue
-                                    ?? "",
-                             title   : document.metadata.title),
+            hasHero ? ""
+            : renderTopicTitle(eyebrow : document.metadata.roleHeading?.rawValue
+                                      ?? "",
+                               title   : document.metadata.title),
           primaryContentHTML  : primaryContent,
           sectionsContentHTML : sectionsContent,
           topicSectionsHTML   : topicSections, seeAlsoHTML: seeAlso

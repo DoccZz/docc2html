@@ -14,7 +14,9 @@ let DocumentContentTemplate = Mustache(
   <main id="main" role="main" class="main">
     {{{topicTitleHTML}}}
     {{{primaryContentHTML}}}
-    {{{sectionsContentHTML}}}
+    {{#sectionsContentHTML}}
+      <div class="sections">{{{sectionsContentHTML}}}</div>
+    {{/sectionsContentHTML}}
     {{{topicSectionsHTML}}}
     {{{seeAlsoHTML}}}
   </main>

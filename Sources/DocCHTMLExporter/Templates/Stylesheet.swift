@@ -207,17 +207,54 @@ pre {
 
 /* hero */
 
+div.hero {
+  padding: 4em 3em 3em 4em;
+  margin-top: -2em; /* hack to counter the main padding */
+}
 div.hero.dark {
   background-color: black;
 }
+div.hero.dark * {
+  color: white;
+}
 
+.hero .headline h1 {
+  margin-top: 0.2em;
+}
+.hero .content {
+  font-size: 1.2em;
+}
 .hero .duration {
   display: flex;
+}
+.hero .eyebrow {
+  font-size:     1.2em;
+  color:         #CCC;
+}
+.hero .metadata .item .content {
+  font-size:     2em;
+  padding-left:  0.5em;
+}
+.hero .metadata .item .bottom {
+  font-weight:   bold;
+  font-size:     0.8em;
 }
 
 /* tasks */
 
 .intro-container .intro {
   display: flex;
+}
+
+
+/* volumes */
+
+div.sections div.section {
+  padding-top: 2em;
+}
+
+.intro-container .eyebrow a {
+  font-size:     1.2em;
+  color:         #777;
 }
 """

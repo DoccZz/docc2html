@@ -12,7 +12,7 @@ import DocCArchive
 extension Sequence where Element == DocCArchive.Section {
   
   func generateHTML(in ctx: DZRenderingContext) -> String {
-    map { $0.generateHTML(in: ctx) }.joined()
+    return map { $0.generateHTML(in: ctx) }.joined()
   }
 }
 
