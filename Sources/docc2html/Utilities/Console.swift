@@ -8,8 +8,6 @@
 
 import struct Logging.Logger
 
-public let console = Logger(label: "μ.console")
-
 /**
  * Just a small JavaScript like `console` shim around the Swift Logging API.
  */

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Logging
 
 // TBD: Maybe make that rather a special kind of exception
 enum ExitCode: Int32, Swift.Error {
@@ -23,6 +24,6 @@ func exit(_ error: ExitCode) -> Never {
 }
 func exit(_ error: Swift.Error) -> Never {
   if let error = error as? ExitCode { exit(error.rawValue) }
-  console.error("Unexpected error:", error)
+  Logger(label: "docc2html").error("Unexpected error:", error)
   exit(42)
 }
