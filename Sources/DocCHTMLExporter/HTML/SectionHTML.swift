@@ -52,7 +52,7 @@ extension DocCArchive.Section {
             assertionFailure("could not resolve bg img ref")
             return nil
           }
-          return ctx.makeRelativeToRoot(ref.generateURL(in: ctx))
+          return ref.generateRelativeURL(in: ctx)
         }()
         return ctx.renderHero(eyebrow     : section.chapter ?? "",
                               title       : title ?? "",
@@ -110,14 +110,14 @@ extension DocCArchive.Section {
       
       switch ref {
         case .topic(let tr):
-          return .init(url: ref.generateURL(in: ctx),
+          return .init(url: ref.generateRelativeURL(in: ctx),
                        decoratedTitleHTML:
                          tr.fragments?.generateDecoratedTitleHTML(in: ctx) ?? "",
                        title: tr.title,
                        abstractHTML: ref.generateAbstractHTML(in: ctx),
                        isDeprecated: tr.deprecated ?? false)
         case .image, .file, .section, .unresolvable:
-          return .init(url: ref.generateURL(in: ctx),
+          return .init(url: ref.generateRelativeURL(in: ctx),
                        decoratedTitleHTML: "",
                        title: "",
                        abstractHTML: ref.generateAbstractHTML(in: ctx),
@@ -153,7 +153,7 @@ extension DocCArchive.DocCSchema.Chapter {
           assertionFailure("Reference is not a topic \(id)")
           return nil
         }
-        return .init(url           : ref.generateURL(in: ctx),
+        return .init(url           : ref.generateRelativeURL(in: ctx),
                      title         : topic.title,
                      estimatedTime : topic.estimatedTime ?? "")
       }

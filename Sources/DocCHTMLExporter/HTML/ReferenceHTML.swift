@@ -33,7 +33,7 @@ extension DocCArchive.Reference {
     return "<!-- unsupported reference \(identifier) -->"
   }
   
-  func generateURL(in ctx: DZRenderingContext) -> String {
+  func generateRelativeURL(in ctx: DZRenderingContext) -> String {
     var idURL : URL? { return URL(string: identifier) }
     
     switch self {

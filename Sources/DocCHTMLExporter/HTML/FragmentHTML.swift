@@ -44,7 +44,7 @@ extension DocCArchive.Fragment {
 
       case .typeIdentifier(let text, let id, let tid):
         if let id = id, let ref = ctx.references[id.stringValue] {
-          let url = ref.generateURL(in: ctx)
+          let url = ref.generateRelativeURL(in: ctx)
           var ms = "<a class='type-identifier-link' href='\(url.htmlEscaped)'>"
           ms += "<span>\(text.htmlEscaped)</span>"
           ms += "</a>"
