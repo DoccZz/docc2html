@@ -15,7 +15,7 @@ import mustache
  * The object is used for rendering a single document. Not intended to be
  * invoked multiple times.
  */
-public final class DZRenderingContext {
+open class DZRenderingContext {
 
   public static let defaultStyleSheet = stylesheet
   

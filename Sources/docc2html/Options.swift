@@ -8,6 +8,7 @@
 
 import Foundation
 import Logging
+import DocCStaticExporter
 
 func usage() {
   let tool = URL(fileURLWithPath: CommandLine.arguments.first ?? "docc2html")
@@ -31,12 +32,11 @@ func usage() {
   )
 }
 
+/// The options for the tool itself.
 struct Options {
 
-  let force         : Bool
-  let keepHash      : Bool
-  let copySystemCSS : Bool
-  let buildIndex    : Bool = true
+  var exportOptions : DocCStaticExporter.Options
+                    = [ .buildIndex, .buildAPIDocs, .buildTutorials ]
   let archivePathes : [ String ]
   let targetPath    : String
   let logFactory    : ( String ) -> LogHandler
@@ -44,10 +44,12 @@ struct Options {
   var targetURL     : URL { URL(fileURLWithPath: targetPath) }
 
   init?(argv: [ String ]) {
-    force         = argv.contains("--force")   || argv.contains("-f")
-    keepHash      = argv.contains("--keep-hash")
-    copySystemCSS = argv.contains("--copy-css")
-
+    if argv.contains("--force") || argv.contains("-f") {
+      exportOptions.insert(.force)
+    }
+    if argv.contains("--keep-hash") { exportOptions.insert(.keepHash     ) }
+    if argv.contains("--copy-css")  { exportOptions.insert(.copySystemCSS) }
+    
     let silent  = argv.contains("--silent")  || argv.contains("-s")
     let verbose = argv.contains("--verbose") || argv.contains("-v")
 

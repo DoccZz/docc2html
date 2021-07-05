@@ -11,7 +11,7 @@ import struct Logging.Logger
 /**
  * Just a small JavaScript like `console` shim around the Swift Logging API.
  */
-extension Logger {
+public extension Logger {
   
   @available(*, deprecated, message: "please use `console` directly")
   var logger : Logger { return self }
