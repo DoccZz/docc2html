@@ -47,8 +47,10 @@ func buildFolder(_ folder: DocCArchive.DocumentFolder, into url: URL,
         console.trace("Build:", document, "\n  to:", htmlURL.path)
         
         let ctx = DZRenderingContext(
-          pathToRoot: pathToRoot,
-          references: document.references
+          pathToRoot : pathToRoot,
+          references : document.references,
+          isIndex    : false,
+          indexLinks : buildIndex
         )
         
         let html = try ctx.buildDocument(document, in: folder)
@@ -60,8 +62,10 @@ func buildFolder(_ folder: DocCArchive.DocumentFolder, into url: URL,
         console.trace("Index:", document, "\n  to:", htmlURL.path)
         
         let ctx = DZRenderingContext(
-          pathToRoot: pathToRoot + "../",
-          references: document.references
+          pathToRoot : pathToRoot + "../",
+          references : document.references,
+          isIndex    : true,
+          indexLinks : true
         )
         
         let html = try ctx.buildDocument(document, in: folder)

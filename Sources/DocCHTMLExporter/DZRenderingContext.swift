@@ -87,6 +87,8 @@ public final class DZRenderingContext {
 
   let pathToRoot          : String
   let references          : [ String : DocCArchive.Reference ]
+  let indexLinks          : Bool
+  let isIndex             : Bool
   let traits              : Set<DocCArchive.ImageReference.Variant.Trait>
                           = [ .light, .retina ]
   
@@ -110,6 +112,8 @@ public final class DZRenderingContext {
    */
   public init(pathToRoot          : String,
               references          : [ String : DocCArchive.Reference ],
+              isIndex             : Bool,
+              indexLinks          : Bool,
               templates           : Templates?        = nil,
               labels              : Labels?           = nil,
               moduleToExternalURL : [ String : URL ]? = nil,
@@ -117,6 +121,8 @@ public final class DZRenderingContext {
   {
     self.pathToRoot          = pathToRoot
     self.references          = references
+    self.isIndex             = isIndex
+    self.indexLinks          = indexLinks
     self.templates           = templates ?? Templates()
     self.labels              = labels    ?? Labels()
     self.moduleToExternalURL = moduleToExternalURL ?? ModuleToExternalURL
