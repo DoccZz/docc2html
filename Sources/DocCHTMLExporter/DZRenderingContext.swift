@@ -89,6 +89,7 @@ open class DZRenderingContext {
   let references          : [ String : DocCArchive.Reference ]
   let indexLinks          : Bool
   let isIndex             : Bool
+  let dataFolderPathes    : Set<String>
   let traits              : Set<DocCArchive.ImageReference.Variant.Trait>
                           = [ .light, .retina ]
   
@@ -113,6 +114,7 @@ open class DZRenderingContext {
   public init(pathToRoot          : String,
               references          : [ String : DocCArchive.Reference ],
               isIndex             : Bool,
+              dataFolderPathes    : Set<String>,
               indexLinks          : Bool,
               templates           : Templates?        = nil,
               labels              : Labels?           = nil,
@@ -122,6 +124,7 @@ open class DZRenderingContext {
     self.pathToRoot          = pathToRoot
     self.references          = references
     self.isIndex             = isIndex
+    self.dataFolderPathes    = dataFolderPathes
     self.indexLinks          = indexLinks
     self.templates           = templates ?? Templates()
     self.labels              = labels    ?? Labels()
@@ -132,12 +135,37 @@ open class DZRenderingContext {
   
   // MARK: - URLs
   
-  func makeRelativeToRoot(_ url: String) -> String {
+
+  private func makeRelativeToRoot(_ url: String) -> String {
     if url.hasPrefix("/") { return pathToRoot + url.dropFirst() }
     return pathToRoot + url
   }
-  func makeRelativeToRoot(_ url: URL) -> String {
+  private func makeRelativeToRoot(_ url: URL) -> String {
     return makeRelativeToRoot(url.path)
+  }
+
+  func linkToResource(_ url: String) -> String {
+    return makeRelativeToRoot(url)
+  }
+
+  func linkToDocument(_ identifierURL: URL) -> String {
+    // Note: This is not very clever yet, it essentially goes up the chain
+    //       using `../..` and then appends the "absolute" path, like
+    //       `../../documentation/SwiftBlocksUI/index.html`.
+    // Note: Those can have path extensions, e.g. "color-swift.property"
+    assert(identifierURL.scheme == "doc")
+    assert(!dataFolderPathes.isEmpty)
+    
+    // This is a little hacky, but yeah. The dataFolderPathes are always
+    // lowercase. Technically we are supposed to use the reference URL,
+    // but that doesn't come w/ the `doc` scheme and is probably less safe
+    // to use.
+    let isIndexed = dataFolderPathes.contains(identifierURL.path.lowercased())
+    
+    let url = isIndexed
+      ? identifierURL.appendingPathComponent("index.html")
+      : identifierURL.appendingPathExtension("html")
+    return makeRelativeToRoot(url)
   }
   
   func externalDocumentBaseURL(for module: String) -> URL? {

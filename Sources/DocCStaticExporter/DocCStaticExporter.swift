@@ -30,6 +30,8 @@ open class DocCStaticExporter {
   public let target      : DocCStaticExportTarget
   public let archiveURLs : [ URL ]
   public let stylesheet  = DZRenderingContext.defaultStyleSheet
+  
+  public var dataFolderPathes = Set<String>()
 
   public init(target: DocCStaticExportTarget, archivePathes: [ String ],
               options: Options, logger: Logger = Logger(label: "docc2html"))
@@ -55,6 +57,11 @@ open class DocCStaticExporter {
     }
     
     let archives = try loadArchives(archiveURLs)
+    
+    for archive in archives {
+      dataFolderPathes.formUnion(archive.fetchDataFolderPathes())
+    }
+    
     try copyStaticResources(of: archives)
     try generatePages      (of: archives)
   }
@@ -148,17 +155,29 @@ open class DocCStaticExporter {
 
     for pageURL in folder.pageURLs() {
       do {
-        let document   = try folder.document(at: pageURL)
-        let baseName   = pageURL.deletingPathExtension().lastPathComponent
-        let pathToRoot = String(repeating: "../", count: folder.level)
+        let document    = try folder.document(at: pageURL)
+        let baseName    = pageURL.deletingPathExtension().lastPathComponent
+        let pathToRoot  = String(repeating: "../", count: folder.level)
+        let isIndexPage = subfolderNames.contains(baseName)
         
-        var indexPath : String? {
-          let isIndexPage = subfolderNames.contains(baseName)
-          guard isIndexPage else { return nil }
-          return relativePath + "/" + baseName + "/index.html"
+        if buildIndex, isIndexPage {
+          let htmlPath = relativePath + "/" + baseName + "/index.html"
+          
+          logger.trace("Index:", document, "\n  to:", htmlPath)
+          
+          let ctx = DZRenderingContext(
+            pathToRoot       : pathToRoot + "../",
+            references       : document.references,
+            isIndex          : true,
+            dataFolderPathes : dataFolderPathes,
+            indexLinks       : true
+          )
+          
+          let html = try ctx.buildDocument(document, in: folder)
+          
+          try target.write(html, to: htmlPath)
         }
-        
-        do {
+        else {
           let htmlPath = relativePath + "/" +
             pageURL
               .deletingPathExtension() // JSON
@@ -168,25 +187,11 @@ open class DocCStaticExporter {
           logger.trace("Build:", document, "\n  to:", htmlPath)
           
           let ctx = DZRenderingContext(
-            pathToRoot : pathToRoot,
-            references : document.references,
-            isIndex    : false,
-            indexLinks : buildIndex
-          )
-          
-          let html = try ctx.buildDocument(document, in: folder)
-          
-          try target.write(html, to: htmlPath)
-        }
-        
-        if buildIndex, let htmlPath = indexPath {
-          logger.trace("Index:", document, "\n  to:", htmlPath)
-          
-          let ctx = DZRenderingContext(
-            pathToRoot : pathToRoot + "../",
-            references : document.references,
-            isIndex    : true,
-            indexLinks : true
+            pathToRoot       : pathToRoot,
+            references       : document.references,
+            isIndex          : false,
+            dataFolderPathes : dataFolderPathes,
+            indexLinks       : buildIndex
           )
           
           let html = try ctx.buildDocument(document, in: folder)
