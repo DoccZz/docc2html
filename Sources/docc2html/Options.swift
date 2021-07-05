@@ -36,6 +36,7 @@ struct Options {
   let force         : Bool
   let keepHash      : Bool
   let copySystemCSS : Bool
+  let buildIndex    : Bool = true
   let archivePathes : [ String ]
   let targetPath    : String
   let logFactory    : ( String ) -> LogHandler
