@@ -77,11 +77,13 @@ else {
 func copyStaticResources(of archives: [ DocCArchive ]) {
   for archive in archives {
     console.log("Copy static resources of:", archive.url.lastPathComponent)
-    
-    let cssFiles = archive.stylesheetURLs()
-    if !cssFiles.isEmpty {
-      copyCSS(archive.stylesheetURLs(), to: ensureTargetDir("css"),
-              keepHash: options.keepHash)
+
+    if options.copySystemCSS {
+      let cssFiles = archive.stylesheetURLs()
+      if !cssFiles.isEmpty {
+        copyCSS(archive.stylesheetURLs(), to: ensureTargetDir("css"),
+                keepHash: options.keepHash)
+      }
     }
     
     copyRaw(archive.userImageURLs(),    to: ensureTargetDir("images"))
