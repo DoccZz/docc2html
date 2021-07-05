@@ -12,10 +12,10 @@ let HeroTemplate = Mustache(
   """
   <div id="introduction" class="tutorial-hero">
     <div class="hero dark">
-      {{#backgroundImage}
+      {{#backgroundImage}}
         <div class="bg"
          style="background-image: url(&quot;{{backgroundImage}}&quot;);"></div>
-      {{/backgroundImage}
+      {{/backgroundImage}}
 
       <div class="row">
         <div class="col large-7 medium-9 small-12">

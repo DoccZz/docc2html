@@ -44,22 +44,54 @@ extension DocCArchive.Section {
         }.joined()
         
       case .hero(let section):
+        let bgURL : String? = {
+          guard !section.backgroundImage.isEmpty else { return nil }
+          guard let ref = ctx[reference: section.backgroundImage] else {
+            ctx.logger.error("Could not resolve background image ref:",
+                             section.backgroundImage)
+            assertionFailure("could not resolve bg img ref")
+            return nil
+          }
+          return ctx.makeRelativeToRoot(ref.generateURL(in: ctx))
+        }()
         return ctx.renderHero(eyebrow     : section.chapter ?? "",
                               title       : title ?? "",
                               duration    : section.estimatedTimeInMinutes ?? 0,
                               contentHTML :
-                                section.content.generateHTML(in: ctx))
+                                section.content.generateHTML(in: ctx),
+                              backgroundImage: bgURL ?? "")
 
       case .volume(let section):
-        fatalError("not implemented \(section)")
+        ctx.logger.error("volume generation is not yet supported:", section)
+        assertionFailure("not implemented \(section)")
 
       case .parameters(let parameters):
         return ctx.renderParametersSection(parameters: parameters.map {
           .init(name: $0.name, contentHTML: $0.content.generateHTML(in: ctx))
         })
       
-      case .tasks(let section):
-        fatalError("not implemented \(section)")
+      case .tasks(let tasks):
+        return tasks.enumerated().map { idx, task in
+          assert(task.contentSection.count == 1)
+
+          let introHTML : String? = task.contentSection.first.flatMap {
+            switch $0 {
+              case .contentAndMedia(let cam):
+                return ctx.renderTaskIntro(
+                  anchor: task.anchor, task: 1, title: task.title,
+                  contentHTML: cam.content.generateHTML(in: ctx),
+                  assetHTML: ctx[reference: cam.media]?.generateHTML(in: ctx)
+                          ?? ""
+                )
+            }
+          }
+          
+          // Steps are regular `Content` sections
+          return ctx.renderTask(anchor: task.anchor, introHTML: introHTML ?? "",
+                                stepsHTML:
+                                  task.stepsSection.generateHTML(in: ctx))
+        }
+        .joined()
     }
     return ""
   }

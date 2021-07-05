@@ -27,6 +27,7 @@ public final class DZRenderingContext {
     public var declaration   = "Declaration"
     public var parameters    = "Parameters"
     public var framework     = "Framework"
+    public var taskSection   = "Section"
   }
   
   public struct Templates {
@@ -72,7 +73,11 @@ public final class DZRenderingContext {
     /// Arguments: title, eyebrow
     public var topicTitle          : Mustache = TopicTitleTemplate
     
+    /// Arguments: eyebrow, title, duration, contentHTML, backgroundImage
     public var hero                : Mustache = HeroTemplate
+
+    public var task                : Mustache = TaskTemplate
+    public var taskIntro           : Mustache = TaskIntroTemplate
   }
   
   let logger              : Logger

@@ -130,6 +130,9 @@ div.content > p > a > code {
 section {
   padding: 0em 3em 0em 3em;
 }
+div.section {
+  padding: 0em 3em 0em 3em;
+}
 
 section.alt-light {
   background-color: #F7F7F7;
@@ -154,13 +157,19 @@ section h2 {
   padding:     2em 0 1em 0;
 }
 
-.contenttable .large-3 {
+.large-3 {
   max-width:   25%;
   flex-basis:  25%;
   flex-grow:   0;
   flex-shrink: 0;
 }
-.contenttable .large-9 {
+.large-3 {
+  max-width:   50%;
+  flex-basis:  50%;
+  flex-grow:   0;
+  flex-shrink: 0;
+}
+.large-9 {
   max-width:   75%;
   flex-basis:  75%;
   flex-grow:   0;
@@ -203,6 +212,12 @@ div.hero.dark {
 }
 
 .hero .duration {
+  display: flex;
+}
+
+/* tasks */
+
+.intro-container .intro {
   display: flex;
 }
 """
