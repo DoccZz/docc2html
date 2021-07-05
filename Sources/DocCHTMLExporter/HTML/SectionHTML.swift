@@ -61,9 +61,12 @@ extension DocCArchive.Section {
                                 section.content.generateHTML(in: ctx),
                               backgroundImage: bgURL ?? "")
 
-      case .volume(let section):
-        ctx.logger.error("volume generation is not yet supported:", section)
-        assertionFailure("not implemented \(section)")
+      case .volume(let volume):
+        assert(volume.image == nil && volume.name == nil
+            && volume.content.isEmpty, "unsupported volume fields \(volume)")
+        return ctx.renderVolume(chapters: volume.chapters.enumerated().map {
+          idx, chapter in chapter.generateTemplateChapter(idx + 1, in: ctx)
+        })
 
       case .parameters(let parameters):
         return ctx.renderParametersSection(parameters: parameters.map {
@@ -121,5 +124,39 @@ extension DocCArchive.Section {
                        isDeprecated: false)
       }
     })
+  }
+}
+
+extension DocCArchive.DocCSchema.Chapter {
+  
+  func generateTemplateChapter(_ number: Int, in ctx: DZRenderingContext)
+       -> Chapter
+  {
+    return Chapter(
+      chapterID   : name.htmlAnchorize,
+      eyebrow     : "\(ctx.labels.volumeChapter) \(number)",
+      name        : name,
+      contentHTML : content.generateHTML(in: ctx),
+      
+      assetHTML   : image.flatMap {
+        ctx[reference: $0]?.generateHTML(in: ctx)
+      } ?? "",
+      
+      tutorials: tutorials.compactMap { id in
+        guard let ref = ctx[reference: id] else {
+          ctx.logger.error("Missing reference to tutorial:", id)
+          assertionFailure("Missing reference to tutorial \(id)")
+          return nil
+        }
+        guard case .topic(let topic) = ref else {
+          ctx.logger.error("Expected topic reference to tutorial", id)
+          assertionFailure("Reference is not a topic \(id)")
+          return nil
+        }
+        return .init(url           : ref.generateURL(in: ctx),
+                     title         : topic.title,
+                     estimatedTime : topic.estimatedTime ?? "")
+      }
+    )
   }
 }

@@ -109,13 +109,11 @@ func generatePages(of archives: [ DocCArchive ]) {
   for archive in archives {
     console.log("Generate archive:", archive.url.lastPathComponent)
 
-    #if false
     if let folder = archive.documentationFolder() {
       let targetURL = options.targetURL.appendingPathComponent("documentation")
       buildFolder(folder, into: targetURL)
     }
-    #endif
-    if let folder = archive.tutorialsFolder(){
+    if let folder = archive.tutorialsFolder() {
       let targetURL = options.targetURL.appendingPathComponent("tutorials")
       buildFolder(folder, into: targetURL)
     }

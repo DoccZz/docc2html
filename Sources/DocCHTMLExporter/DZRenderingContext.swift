@@ -28,6 +28,7 @@ public final class DZRenderingContext {
     public var parameters    = "Parameters"
     public var framework     = "Framework"
     public var taskSection   = "Section"
+    public var volumeChapter = "Chapter"
   }
   
   public struct Templates {
@@ -78,6 +79,8 @@ public final class DZRenderingContext {
 
     public var task                : Mustache = TaskTemplate
     public var taskIntro           : Mustache = TaskIntroTemplate
+    
+    public var volume              : Mustache = VolumeTemplate
   }
   
   let logger              : Logger

@@ -51,10 +51,10 @@ extension DZRenderingContext {
                   backgroundImage : String = "")
        -> String
   {
-    return templates.codeListing(eyebrow         : eyebrow,
-                                 title           : title,
-                                 duration        : duration,
-                                 contentHTML     : contentHTML,
-                                 backgroundImage : backgroundImage)
+    return templates.hero(eyebrow         : eyebrow,
+                          title           : title,
+                          duration        : duration,
+                          contentHTML     : contentHTML,
+                          backgroundImage : backgroundImage)
   }
 }
