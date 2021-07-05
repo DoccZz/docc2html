@@ -8,7 +8,7 @@
 
 import mustache
 
-fileprivate let template = Mustache(
+let PrimaryContentGridTemplate = Mustache(
   """
   <div class="container content-grid">
     <div class="description">
@@ -26,11 +26,12 @@ fileprivate let template = Mustache(
   """
 )
 
-/**
- * Arguments:
- * - abstractHTML (document.abstract:               [ InlineContent ])
- * - contentHTML  (document.primaryContentSections: [ Section ])
- */
-func PrimaryContent(abstractHTML: String, contentHTML: String) -> String {
-  template(abstractHTML: abstractHTML, contentHTML: contentHTML)
+extension DZRenderingContext {
+  
+  func renderPrimaryContentGrid(abstractHTML: String, contentHTML: String)
+       -> String
+  {
+    return templates.primaryContentGrid(abstractHTML: abstractHTML,
+                                        contentHTML: contentHTML)
+  }
 }

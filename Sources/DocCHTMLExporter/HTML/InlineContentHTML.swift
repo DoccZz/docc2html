@@ -11,14 +11,14 @@ import DocCArchive
 
 extension Sequence where Element == DocCArchive.InlineContent {
   
-  func generateHTML(in ctx: RenderingContext) -> String {
+  func generateHTML(in ctx: DZRenderingContext) -> String {
     return map { $0.generateHTML(in: ctx) }.joined()
   }
 }
 
 extension DocCArchive.InlineContent {
   
-  func generateHTML(in ctx: RenderingContext) -> String {
+  func generateHTML(in ctx: DZRenderingContext) -> String {
     switch self {
       case .text(let value):
         return value.htmlEscaped

@@ -26,6 +26,7 @@ func usage() {
       -s/--silent:  silent logging
       -v/--verbose: verbose logging
       --keep-hash:  keep hashes in resource names
+      --copy-css:   copy the CSS folder in the archive to the target
     """
   )
 }
@@ -34,6 +35,7 @@ struct Options {
 
   let force         : Bool
   let keepHash      : Bool
+  let copySystemCSS : Bool
   let archivePathes : [ String ]
   let targetPath    : String
   let logFactory    : ( String ) -> LogHandler
@@ -41,8 +43,9 @@ struct Options {
   var targetURL     : URL { URL(fileURLWithPath: targetPath) }
 
   init?(argv: [ String ]) {
-    force    = argv.contains("--force")   || argv.contains("-f")
-    keepHash = argv.contains("--keep-hash")
+    force         = argv.contains("--force")   || argv.contains("-f")
+    keepHash      = argv.contains("--keep-hash")
+    copySystemCSS = argv.contains("--copy-css")
 
     let silent  = argv.contains("--silent")  || argv.contains("-s")
     let verbose = argv.contains("--verbose") || argv.contains("-v")

@@ -8,7 +8,7 @@
 
 import mustache
 
-fileprivate let template = Mustache(
+let ParametersSectionTemplate = Mustache(
   """
   <section id="parameters" class="parameters">
     <h2>{{title}}</h2>
@@ -29,8 +29,12 @@ struct Parameter {
   let contentHTML : String
 }
 
-func ParametersSection(title: String = "Parameters", parameters: [ Parameter ])
-     -> String
-{
-  template(title: title, parameters: parameters)
+extension DZRenderingContext {
+  
+  func renderParametersSection(title: String? = nil, parameters: [ Parameter ])
+       -> String
+  {
+    return templates.parametersSection(title: title ?? labels.parameters,
+                                       parameters: parameters)
+  }
 }

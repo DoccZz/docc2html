@@ -10,10 +10,7 @@ import mustache
 
 // TBD:
 // nav: interfacelanguage, swiftpath, aria-label, svg for triangle
-// Arguments:
-// - title
-// - navitems / title|isCurrent
-fileprivate let template = Mustache(
+let NavigationTemplate = Mustache(
   """
   <nav role="navigation" class="nav documentation-nav">
     <div class="nav__wrapper">
@@ -50,9 +47,12 @@ struct NavigationItem {
   let link      : String
 }
 
-func Navigation(title: String = "Documentation",
-                items: [ NavigationItem ])
-     -> String
-{
-  template(title: title, navitems: items)
+extension DZRenderingContext {
+
+  func renderNavigation(title: String? = nil, items: [ NavigationItem ])
+       -> String
+  {
+    return templates
+             .navigation(title: title ?? labels.documentation, navitems: items)
+  }
 }

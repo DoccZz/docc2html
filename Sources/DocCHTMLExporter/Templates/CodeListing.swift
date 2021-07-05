@@ -8,7 +8,7 @@
 
 import mustache
 
-fileprivate let template = Mustache(
+let CodeListingTemplate = Mustache(
   """
   <div data-syntax="{{syntax}}" class="code-listing">
     <div class="container-general">
@@ -19,17 +19,19 @@ fileprivate let template = Mustache(
   """
 )
 
-func CodeListingContent(syntax: String = "Swift", lines: [ String ])
-     -> String
-{
-  struct Line {
-    let line : Int
-    let code : String
-  }
-  return template(
-    syntax: syntax,
-    lines: lines.enumerated().map { idx, code in
-      Line(line: idx + 1, code: code)
+extension DZRenderingContext {
+
+  func renderCodeListing(syntax: String = "Swift", lines: [ String ]) -> String
+  {
+    struct Line {
+      let line : Int
+      let code : String
     }
-  )
+    return templates.codeListing(
+      syntax: syntax,
+      lines: lines.enumerated().map { idx, code in
+        Line(line: idx + 1, code: code)
+      }
+    )
+  }
 }

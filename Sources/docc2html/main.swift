@@ -7,8 +7,9 @@
 //
 
 import Foundation
-import DocCArchive // @DoccZz
-import Logging     // @apple/swift-log
+import DocCArchive      // @DoccZz
+import DocCHTMLExporter // @DoccZz/docc2html
+import Logging          // @apple/swift-log
 
 let fm = FileManager.default
 
@@ -76,11 +77,13 @@ else {
 func copyStaticResources(of archives: [ DocCArchive ]) {
   for archive in archives {
     console.log("Copy static resources of:", archive.url.lastPathComponent)
-    
-    let cssFiles = archive.stylesheetURLs()
-    if !cssFiles.isEmpty {
-      copyCSS(archive.stylesheetURLs(), to: ensureTargetDir("css"),
-              keepHash: options.keepHash)
+
+    if options.copySystemCSS {
+      let cssFiles = archive.stylesheetURLs()
+      if !cssFiles.isEmpty {
+        copyCSS(archive.stylesheetURLs(), to: ensureTargetDir("css"),
+                keepHash: options.keepHash)
+      }
     }
     
     copyRaw(archive.userImageURLs(),    to: ensureTargetDir("images"))
@@ -94,7 +97,8 @@ func copyStaticResources(of archives: [ DocCArchive ]) {
   
   do {
     let siteCSS = ensureTargetDir("css").appendingPathComponent("site.css")
-    try stylesheet.write(to: siteCSS, atomically: false, encoding: .utf8)
+    try DZRenderingContext.defaultStyleSheet
+          .write(to: siteCSS, atomically: false, encoding: .utf8)
   }
   catch {
     console.log("Failed to write custom stylesheet:", error)
@@ -105,13 +109,16 @@ func copyStaticResources(of archives: [ DocCArchive ]) {
 
 func generatePages(of archives: [ DocCArchive ]) {
   for archive in archives {
-    
+    console.log("Generate archive:", archive.url.lastPathComponent)
+
     if let folder = archive.documentationFolder() {
       let targetURL = options.targetURL.appendingPathComponent("documentation")
       buildFolder(folder, into: targetURL)
     }
-    
-    console.log("Generate archive:", archive.url.lastPathComponent)
+    if let folder = archive.tutorialsFolder() {
+      let targetURL = options.targetURL.appendingPathComponent("tutorials")
+      buildFolder(folder, into: targetURL)
+    }
   }
 }
 

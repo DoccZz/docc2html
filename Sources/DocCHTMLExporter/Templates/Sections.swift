@@ -8,7 +8,7 @@
 
 import mustache
 
-fileprivate let template = Mustache(
+let ContentTableSectionTemplate = Mustache(
   """
   <section id='{{sectionID}}' class='contenttable alt-light'>
     <div class='container'>
@@ -61,15 +61,14 @@ struct Section {
   let items : [ Item ]
 }
 
-/**
- * Arguments:
- * - title    : "Topics"
- * - sections : The sections
- */
-func BuildSections(title     : String,
-                   sectionID : String,
-                   sections  : [ Section ])
-     -> String
-{
-  template(title: title, sectionID: sectionID, sections: sections)
+extension DZRenderingContext {
+  
+  func renderContentTableSection(title     : String,
+                                 sectionID : String,
+                                 sections  : [ Section ])
+       -> String
+  {
+    return templates.contentTableSection(title: title, sectionID: sectionID,
+                                         sections: sections)
+  }
 }

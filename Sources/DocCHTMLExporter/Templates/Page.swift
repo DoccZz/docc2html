@@ -24,7 +24,7 @@ import mustache
   fileprivate let stylesheets = [ "site.css" ]
 #endif
 
-fileprivate let template = Mustache(
+let PageTemplate = Mustache(
   """
   <!DOCTYPE html>
   <html lang="en">
@@ -56,17 +56,21 @@ fileprivate let template = Mustache(
   """
 )
 
-/**
- * Generates the header and the body.
- */
-func Page(relativePathToRoot : String = "/",
-          title              : String = "Documentation",
-          contentHTML        : String,
-          footerHTML         : String = "",
-          highlightCDN       : String = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.0.1")
-     -> String
-{
-  template(relativePathToRoot: relativePathToRoot, highlightCDN: highlightCDN,
-           contentHTML: contentHTML, footerHTML: footerHTML, title: title,
-           cssPath: relativePathToRoot + "css/")
+extension DZRenderingContext {
+  /**
+   * Generates the header and the body.
+   */
+  func renderHTML(relativePathToRoot : String = "/",
+                  title              : String? = nil,
+                  contentHTML        : String,
+                  footerHTML         : String = "")
+       -> String
+  {
+    return templates.htmlWrapper(relativePathToRoot: relativePathToRoot,
+                                 highlightCDN : highlightCDN,
+                                 contentHTML  : contentHTML,
+                                 footerHTML   : footerHTML,
+                                 title        : title ?? labels.documentation,
+                                 cssPath      : relativePathToRoot + "css/")
+  }
 }

@@ -11,10 +11,10 @@ import DocCArchive
 
 extension Sequence where Element == DocCArchive.Fragment {
   
-  func generateHTML(in ctx: RenderingContext) -> String {
+  func generateHTML(in ctx: DZRenderingContext) -> String {
     return map { $0.generateHTML(in: ctx) }.joined()
   }
-  func generateDecoratedTitleHTML(in ctx: RenderingContext) -> String {
+  func generateDecoratedTitleHTML(in ctx: DZRenderingContext) -> String {
     return map { $0.generateDecoratedTitleHTML(in: ctx) }.joined()
   }
 }
@@ -34,7 +34,7 @@ extension DocCArchive.Fragment {
     }
   }
 
-  func generateHTML(in ctx: RenderingContext) -> String {
+  func generateHTML(in ctx: DZRenderingContext) -> String {
     let content = stringValue.htmlEscaped
     
     switch self {
@@ -44,7 +44,7 @@ extension DocCArchive.Fragment {
 
       case .typeIdentifier(let text, let id, let tid):
         if let id = id, let ref = ctx.references[id.stringValue] {
-          let url = ref.generateURL(in: ctx)
+          let url = ref.generateRelativeURL(in: ctx)
           var ms = "<a class='type-identifier-link' href='\(url.htmlEscaped)'>"
           ms += "<span>\(text.htmlEscaped)</span>"
           ms += "</a>"
@@ -77,7 +77,7 @@ extension DocCArchive.Fragment {
    * Those are used in symbol topic titles. They render the fragments
    * differently.
    */
-  func generateDecoratedTitleHTML(in ctx: RenderingContext) -> String {
+  func generateDecoratedTitleHTML(in ctx: DZRenderingContext) -> String {
     let content     = stringValue
     let contentHTML = content.htmlEscaped
     var spanClass   : String

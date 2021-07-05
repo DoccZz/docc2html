@@ -130,6 +130,9 @@ div.content > p > a > code {
 section {
   padding: 0em 3em 0em 3em;
 }
+div.section {
+  padding: 0em 3em 0em 3em;
+}
 
 section.alt-light {
   background-color: #F7F7F7;
@@ -154,13 +157,19 @@ section h2 {
   padding:     2em 0 1em 0;
 }
 
-.contenttable .large-3 {
+.large-3 {
   max-width:   25%;
   flex-basis:  25%;
   flex-grow:   0;
   flex-shrink: 0;
 }
-.contenttable .large-9 {
+.large-3 {
+  max-width:   50%;
+  flex-basis:  50%;
+  flex-grow:   0;
+  flex-shrink: 0;
+}
+.large-9 {
   max-width:   75%;
   flex-basis:  75%;
   flex-grow:   0;
@@ -194,5 +203,58 @@ pre {
 pre {
   margin:  0;
   padding: 0;
+}
+
+/* hero */
+
+div.hero {
+  padding: 4em 3em 3em 4em;
+  margin-top: -2em; /* hack to counter the main padding */
+}
+div.hero.dark {
+  background-color: black;
+}
+div.hero.dark * {
+  color: white;
+}
+
+.hero .headline h1 {
+  margin-top: 0.2em;
+}
+.hero .content {
+  font-size: 1.2em;
+}
+.hero .duration {
+  display: flex;
+}
+.hero .eyebrow {
+  font-size:     1.2em;
+  color:         #CCC;
+}
+.hero .metadata .item .content {
+  font-size:     2em;
+  padding-left:  0.5em;
+}
+.hero .metadata .item .bottom {
+  font-weight:   bold;
+  font-size:     0.8em;
+}
+
+/* tasks */
+
+.intro-container .intro {
+  display: flex;
+}
+
+
+/* volumes */
+
+div.sections div.section {
+  padding-top: 2em;
+}
+
+.intro-container .eyebrow a {
+  font-size:     1.2em;
+  color:         #777;
 }
 """
