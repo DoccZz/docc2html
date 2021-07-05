@@ -44,7 +44,12 @@ extension DocCArchive.Section {
         }.joined()
         
       case .hero(let section):
-        fatalError("not implemented \(section)")
+        return ctx.renderHero(eyebrow     : section.chapter ?? "",
+                              title       : title ?? "",
+                              duration    : section.estimatedTimeInMinutes ?? 0,
+                              contentHTML :
+                                section.content.generateHTML(in: ctx))
+
       case .volume(let section):
         fatalError("not implemented \(section)")
 

@@ -71,6 +71,8 @@ public final class DZRenderingContext {
     
     /// Arguments: title, eyebrow
     public var topicTitle          : Mustache = TopicTitleTemplate
+    
+    public var hero                : Mustache = HeroTemplate
   }
   
   let logger              : Logger

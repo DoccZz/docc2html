@@ -195,4 +195,14 @@ pre {
   margin:  0;
   padding: 0;
 }
+
+/* hero */
+
+div.hero.dark {
+  background-color: black;
+}
+
+.hero .duration {
+  display: flex;
+}
 """
