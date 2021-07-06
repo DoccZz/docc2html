@@ -32,7 +32,8 @@ open class DZRenderingContext {
   }
   
   public struct Templates {
-    // refer to them using this struct, to make them configurable later on.
+
+    public init() {}
     
     /// Arguments:
     /// relativePathToRoot, highlightCDN, contentHTML, footerHTML, title,
