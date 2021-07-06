@@ -1,0 +1,15 @@
+<div class="intro-container">
+  <div class="row intro intro-{{task}}">
+    <div class="col left large-6 small-12">
+      <div class="headline">
+        <span class="eyebrow"><a href="#{{anchor}}">{{sectionTitle}}</a></span>
+        <h2 class="heading">{{title}}</h2>
+      </div>
+      {{#contentHTML}}
+        <div class="content">{{{contentHTML}}}</div>
+      {{/contentHTML}}
+    </div>
+    <div class="col right large-6 small-12">
+      <div class="media"><div class="asset">{{{assetHTML}}}</div></div>
+    </div>
+</div>

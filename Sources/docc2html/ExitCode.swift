@@ -17,6 +17,7 @@ enum ExitCode: Int32, Swift.Error {
   case targetDirectoryExists         = 4
   case couldNotLoadStaticResource    = 5
   case couldNotCopyStaticResource    = 6
+  case couldNotFindTemplatesDir      = 7
 }
 
 extension ExitCode {

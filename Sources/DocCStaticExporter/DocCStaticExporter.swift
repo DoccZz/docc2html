@@ -29,16 +29,22 @@ open class DocCStaticExporter {
   public let options     : Options
   public let target      : DocCStaticExportTarget
   public let archiveURLs : [ URL ]
-  public let stylesheet  = DZRenderingContext.defaultStyleSheet
-  
+  public let stylesheet  : String
+  public let templates   : DZRenderingContext.Templates?
+
   public var dataFolderPathes = Set<String>()
 
-  public init(target: DocCStaticExportTarget, archivePathes: [ String ],
-              options: Options, logger: Logger = Logger(label: "docc2html"))
+  public init(target     : DocCStaticExportTarget, archivePathes: [ String ],
+              options    : Options,
+              templates  : DZRenderingContext.Templates? = nil,
+              stylesheet : String? = nil,
+              logger     : Logger  = Logger(label: "docc2html"))
   {
     self.target      = target
     self.archiveURLs = archivePathes.map(URL.init(fileURLWithPath:))
     self.options     = options
+    self.templates   = templates
+    self.stylesheet  = stylesheet ?? DZRenderingContext.defaultStyleSheet
     self.logger      = logger
   }
   
@@ -170,7 +176,8 @@ open class DocCStaticExporter {
             references       : document.references,
             isIndex          : true,
             dataFolderPathes : dataFolderPathes,
-            indexLinks       : true
+            indexLinks       : true,
+            templates        : templates
           )
           
           let html = try ctx.buildDocument(document, in: folder)
@@ -191,7 +198,8 @@ open class DocCStaticExporter {
             references       : document.references,
             isIndex          : false,
             dataFolderPathes : dataFolderPathes,
-            indexLinks       : buildIndex
+            indexLinks       : buildIndex,
+            templates        : templates
           )
           
           let html = try ctx.buildDocument(document, in: folder)

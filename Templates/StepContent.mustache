@@ -1,0 +1,16 @@
+<div class="step-container step-{{step}}">
+  <div data-index="{{stepIndex}}" class="step">
+    <p class="step-label">Step {{step}}</p>
+    <div class="content">{{{contentHTML}}}</div>
+    <div class="caption content">{{{captionHTML}}}</div>
+  </div>
+
+  {{#hasCode}}
+    <div data-syntax="{{syntax}}" class="code-listing">
+      <div class="container-general">
+        <pre><code>{{#lines}}<span class="code-line-container"><span data-line-number="{{{line}}}" class="code-number" style="display: none;"></span><span class="code-line">{{code}}</span></span>
+    {{/lines}}</code></pre>
+      </div>
+    </div>
+  {{/hasCode}}
+</div>
