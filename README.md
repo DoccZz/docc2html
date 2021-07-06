@@ -33,6 +33,14 @@ open file:/tmp/SlothCreatorSite/documentation/slothcreator.html
 
 ## Status
 
+### 2021-07-06
+
+Well, it's getting closer and the source code starts to be quite
+reasonable as well. Though you can still tell it started as a
+quick hack.
+
+### 2021-07-03
+
 **It's not ready for production yet, needs some more work.**
 
 This is a very quick hack/PoC full of quirks,
@@ -53,10 +61,10 @@ It's not much yet, but a pretty good starting point.
 
 ## TODO
 
-- [ ] better templates
-- [ ] support tutorials (task sections etc)
+- [ ] better API doc templates
+- [ ] improve tutorial templates
 - [ ] better CSS
-- [ ] refactor code into a proper type and module for easier reuse
+- [x] refactor code into a proper type and module for easier reuse
 - [x] drop dependency on Macro
 - [ ] support Mustache templates in the filesystem! (for customization & faster testing)
 
