@@ -72,7 +72,8 @@ It's not much yet, but a pretty good starting point.
 - [ ] better CSS
 - [x] refactor code into a proper type and module for easier reuse
 - [x] drop dependency on Macro
-- [ ] support Mustache templates in the filesystem! (for customization & faster testing)
+- [x] support Mustache templates in the filesystem! (for customization & faster testing)
+- [x] generate proper index.html
 
 ### Using it on GitHub
 
