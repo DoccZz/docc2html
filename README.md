@@ -27,11 +27,17 @@ This will create the static site in /tmp/SlothCreatorSite.
 The root documentation can be directly opened in the browser,
 e.g.
 ```bash
-open file:/tmp/SlothCreatorSite/documentation/slothcreator.html
+open file:/tmp/SlothCreatorSite/documentation/slothcreator/index.html
 ```
 
 
 ## Status
+
+### 2021-07-10
+
+I think it is somewhat reasonable now. Templates (and Site.css) can be customized
+using external files. If willing to ajust the CSS to your own liking, it might be
+reasonable to use docc2html for something real.
 
 ### 2021-07-06
 
@@ -66,7 +72,8 @@ It's not much yet, but a pretty good starting point.
 - [ ] better CSS
 - [x] refactor code into a proper type and module for easier reuse
 - [x] drop dependency on Macro
-- [ ] support Mustache templates in the filesystem! (for customization & faster testing)
+- [x] support Mustache templates in the filesystem! (for customization & faster testing)
+- [x] generate proper index.html
 
 ### Using it on GitHub
 
