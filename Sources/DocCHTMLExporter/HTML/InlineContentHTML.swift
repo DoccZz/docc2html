@@ -26,8 +26,11 @@ extension DocCArchive.InlineContent {
       case .emphasis(let value):
         return "<em>" + value.generateHTML(in: ctx) + "</em>"
         
-      case .reference(let identifier, let isActive):
+      case .reference(let identifier, let isActive,
+                      _ /* let overridingTitle */,
+                      _ /* let overridingTitleInlineContent */):
         // e.g. /documentation/SlothCreator/Sloth
+        // TODO: what to do with the overriding title?
         if let ref = ctx.references[identifier.stringValue] {
           return ref.generateHTML(isActive: isActive, in: ctx)
         }

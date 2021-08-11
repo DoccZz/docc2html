@@ -29,6 +29,21 @@ extension DocCArchive.Content {
       case .paragraph(let inlineContent):
         return "<p>" + inlineContent.generateHTML(in: ctx) + "</p>"
         
+      case .orderedList(let items):
+        var ms = "<ol>"
+        for item in items {
+          ms += "<li><p>\(item.content.generateHTML(in: ctx))</p></li>"
+        }
+        ms += "</ol>"
+        return ms
+      case .unorderedList(let items):
+        var ms = "<ul>"
+        for item in items {
+          ms += "<li><p>\(item.content.generateHTML(in: ctx))</p></li>"
+        }
+        ms += "</ul>"
+        return ms
+
       case .aside(let style, let content):
         var ms = "<aside class='\(style.rawValue)'>" // ARIA?
         if style == .note { ms += "<p class='label'>Note</p>" }
