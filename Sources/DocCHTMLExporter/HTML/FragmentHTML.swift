@@ -30,6 +30,7 @@ extension DocCArchive.Fragment {
       case .externalParam    : return "token-externalParam"
       case .internalParam    : return "token-internalParam"
       case .genericParameter : return "token-genericParameter"
+      case .attribute        : return "token-attribute"
       case .typeIdentifier   : return ""
     }
   }
@@ -39,7 +40,7 @@ extension DocCArchive.Fragment {
     
     switch self {
       case .text, .keyword, .identifier,
-           .externalParam, .internalParam, .genericParameter:
+           .externalParam, .internalParam, .genericParameter, .attribute:
         break
 
       case .typeIdentifier(let text, let id, let tid):
@@ -84,7 +85,7 @@ extension DocCArchive.Fragment {
 
     switch self {
       case .text, .keyword, .typeIdentifier,
-           .externalParam, .internalParam, .genericParameter:
+           .externalParam, .internalParam, .genericParameter, .attribute:
         spanClass = "decorator"
       case .identifier:
         spanClass = "identifier"
