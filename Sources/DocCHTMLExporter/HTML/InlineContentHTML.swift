@@ -25,7 +25,8 @@ extension DocCArchive.InlineContent {
         
       case .emphasis(let value):
         return "<em>" + value.generateHTML(in: ctx) + "</em>"
-        
+      case .strong(let value):
+        return "<strong>" + value.generateHTML(in: ctx) + "</strong>"
       case .reference(let identifier, let isActive,
                       _ /* let overridingTitle */,
                       _ /* let overridingTitleInlineContent */):
