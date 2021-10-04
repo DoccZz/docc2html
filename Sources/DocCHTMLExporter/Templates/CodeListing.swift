@@ -21,14 +21,14 @@ let CodeListingTemplate = Mustache(
 
 extension DZRenderingContext {
 
-  func renderCodeListing(syntax: String = "Swift", lines: [ String ]) -> String
+  func renderCodeListing(syntax: String? = "Swift", lines: [ String ]) -> String
   {
     struct Line {
       let line : Int
       let code : String
     }
     return templates.codeListing(
-      syntax: syntax,
+      syntax: syntax ?? "",
       lines: lines.enumerated().map { idx, code in
         Line(line: idx + 1, code: code)
       }
