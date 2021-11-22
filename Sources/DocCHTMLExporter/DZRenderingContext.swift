@@ -142,8 +142,8 @@ open class DZRenderingContext {
     return pathToRoot + url
   }
   private func makeRelativeToRoot(_ url: URL) -> String {
-    // Since identifier (reference URL) is used to form this link
-    // rather than url, path needs to be lowercased to match generated files.
+    // Since identifier (reference URL) is used to form links rather than url,
+    // it's path needs to be lowercased, as url is, in order to match generated files .
     return makeRelativeToRoot(url.path.lowercased())
   }
 
