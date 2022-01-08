@@ -165,7 +165,7 @@ extension DocCArchive.ImageReference {
     if !alt.isEmpty { ms += " alt='\(alt.htmlEscaped)'" }
     ms += " srcset='\(srcset)'"
     ms += " src='\(url.htmlEscaped)'"
-    ms += " width='\(variant.size.width)' height='auto'"
+    if let size = variant.size { ms += " width='\(size.width)' height='auto'" }
     ms += " />"
     ms += "</source></picture>"
     return ms
