@@ -43,6 +43,36 @@ extension DocCArchive.Content {
         }
         ms += "</ul>"
         return ms
+      
+      case .table(let headerKind, let rows):
+        assert(headerKind == .row)
+        var ms = "<table>"
+        if let headerRow = rows.first {
+          ms += "<thead><tr>"
+          for cell in headerRow {
+            ms += "<th scope='col'>" // no idea what the scope is supposed to be
+            ms += cell.generateHTML(in: ctx)
+            ms += "</th>"
+          }
+          ms += "</tr></thead>"
+          
+          ms += "<tbody>"
+          for row in rows.dropFirst() {
+            ms += "<tr>"
+            for cell in row {
+              ms += "<td>"
+              ms += cell.generateHTML(in: ctx)
+              ms += "</td>"
+            }
+            ms += "</tr>"
+          }
+          ms += "</tbody>"
+        }
+        else {
+          ms += "<!-- table w/o content, not even a header -->"
+        }
+        ms += "</table>"
+        return ms
 
       case .aside(let style, let content):
         var ms = "<aside class='\(style.rawValue)'>" // ARIA?
