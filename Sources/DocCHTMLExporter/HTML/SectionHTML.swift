@@ -116,7 +116,7 @@ extension DocCArchive.Section {
                        title: tr.title,
                        abstractHTML: ref.generateAbstractHTML(in: ctx),
                        isDeprecated: tr.deprecated ?? false)
-        case .image, .file, .section, .unresolvable:
+        case .image, .link, .file, .section, .unresolvable:
           return .init(url: ref.generateRelativeURL(in: ctx),
                        decoratedTitleHTML: "",
                        title: "",

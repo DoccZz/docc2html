@@ -3,7 +3,7 @@
 //  docc2html
 //
 //  Created by Helge Heß.
-//  Copyright © 2021 ZeeZide GmbH. All rights reserved.
+//  Copyright © 2021-2022 ZeeZide GmbH. All rights reserved.
 //
 
 import Foundation
@@ -20,6 +20,9 @@ extension DocCArchive.Reference {
         return ref.generateHTML(isActive: isActive, in: ctx)
         
       case .image(let ref):
+        return ref.generateHTML(in: ctx)
+      
+      case .link(let ref):
         return ref.generateHTML(in: ctx)
         
       case .file(_):
@@ -45,6 +48,9 @@ extension DocCArchive.Reference {
       case .image(let ref):
         guard let variant = ref.bestVariant(for: ctx.traits) else { return "" }
         return ctx.linkToResource(variant.url)
+      
+      case .link(let ref):
+        return ref.url.absoluteString // always absolute? not 100% sure.
         
       case .file(_):
         fatalError("unsupported file ref")
@@ -58,8 +64,9 @@ extension DocCArchive.Reference {
   }
 
   func generateDecoratedTitleHTML(in ctx: DZRenderingContext) -> String {
+    // TODO: document what this is
     switch self {
-      case .image, .file, .unresolvable: return ""
+      case .image, .link, .file, .unresolvable: return ""
 
       case .topic(let ref):
         if ref.kind == .symbol {
@@ -84,7 +91,10 @@ extension DocCArchive.Reference {
         
       case .image(let ref):
         return ref.alt.htmlEscaped
-        
+      
+      case .link(let ref):
+        return ref.title.htmlEscaped
+
       case .file(_):
         fatalError("unsupported file ref")
       case .section(_):
@@ -168,6 +178,25 @@ extension DocCArchive.ImageReference {
     if let size = variant.size { ms += " width='\(size.width)' height='auto'" }
     ms += " />"
     ms += "</source></picture>"
+    return ms
+  }
+}
+
+extension DocCArchive.DocCSchema_0_1.LinkReference {
+  
+  /**
+   * Generate the `a` tag in the rendering context.
+   */
+  func generateHTML(in ctx: DZRenderingContext) -> String {
+    // TBD: Do we need the id for anything? Probably not? Is the same like the
+    //      URL in issue #7.
+    var ms = "<a href='"
+    ms += url.absoluteString.htmlEscaped
+    ms += "'"
+    if !title.isEmpty { ms += " title='\(title.htmlEscaped)'" }
+    ms += ">"
+    ms += titleInlineContent.generateHTML(in: ctx)
+    ms += "</a>"
     return ms
   }
 }

@@ -16,7 +16,7 @@ let package = Package(
     .package(url  : "https://github.com/AlwaysRightInstitute/mustache.git",
              from : "1.0.1"),
     .package(url  : "https://github.com/DoccZz/DocCArchive.git",
-             from : "0.3.0"),
+             from : "0.3.2"),
     .package(url  : "https://github.com/apple/swift-log.git",
              from : "1.4.2")
   ],
