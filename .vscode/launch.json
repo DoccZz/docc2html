@@ -1,0 +1,28 @@
+{
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "sourceLanguages": [
+                "swift"
+            ],
+            "name": "Debug docc2html",
+            "program": "${workspaceFolder:docc2html}/.build/debug/docc2html",
+            "args": [],
+            "cwd": "${workspaceFolder:docc2html}",
+            "preLaunchTask": "swift: Build Debug docc2html"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "sourceLanguages": [
+                "swift"
+            ],
+            "name": "Release docc2html",
+            "program": "${workspaceFolder:docc2html}/.build/release/docc2html",
+            "args": [],
+            "cwd": "${workspaceFolder:docc2html}",
+            "preLaunchTask": "swift: Build Release docc2html"
+        }
+    ]
+}
