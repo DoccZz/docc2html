@@ -25,6 +25,8 @@ extension DocCArchive.InlineContent {
         
       case .emphasis(let value):
         return "<em>" + value.generateHTML(in: ctx) + "</em>"
+      case .strikethrough(let value):
+        return "<s>" + value.generateHTML(in: ctx) + "</s>"
       case .strong(let value):
         return "<strong>" + value.generateHTML(in: ctx) + "</strong>"
       case .reference(let identifier, let isActive,
