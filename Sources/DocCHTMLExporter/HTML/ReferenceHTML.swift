@@ -132,7 +132,7 @@ extension DocCArchive.TopicReference {
       case .none   : ms += title
       case .symbol : ms += "<code>\(title)</code>"
         
-      case .article, .overview, .project:
+      case .article, .overview, .project, .section:
         assertionFailure("unsupported kind: \(kind as Any)")
         ms += title
     }
