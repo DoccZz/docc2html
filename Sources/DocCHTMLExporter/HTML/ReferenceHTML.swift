@@ -132,7 +132,7 @@ extension DocCArchive.TopicReference {
       case .none   : ms += title
       case .symbol : ms += "<code>\(title)</code>"
         
-      case .article, .overview, .project:
+      case .article, .overview, .project, .section:
         assertionFailure("unsupported kind: \(kind as Any)")
         ms += title
     }
@@ -167,7 +167,8 @@ extension DocCArchive.ImageReference {
     
     let url    = ctx.linkToResource(variant.url)
     let srcset = url.htmlEscaped
-               + (ctx.traits.contains(.retina) ? " 2x" : "")
+               + (ctx.traits.contains(.retina) ? " 2x"
+               : ctx.traits.contains(.threeX) ? " 3x" : "")
 
     var ms = "<picture><source\(media) srcset='\(srcset)'>"
 
