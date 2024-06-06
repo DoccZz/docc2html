@@ -167,7 +167,8 @@ extension DocCArchive.ImageReference {
     
     let url    = ctx.linkToResource(variant.url)
     let srcset = url.htmlEscaped
-               + (ctx.traits.contains(.retina) ? " 2x" : "")
+               + (ctx.traits.contains(.retina) ? " 2x"
+               : ctx.traits.contains(.threeX) ? " 3x" : "")
 
     var ms = "<picture><source\(media) srcset='\(srcset)'>"
 
