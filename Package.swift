@@ -16,9 +16,9 @@ let package = Package(
     .package(url  : "https://github.com/AlwaysRightInstitute/mustache.git",
              from : "1.0.1"),
     .package(url  : "https://github.com/DoccZz/DocCArchive.git",
-             from : "0.3.3"),
+             from : "0.4.1"),
     .package(url  : "https://github.com/apple/swift-log.git",
-             from : "1.4.2")
+             from : "1.5.4")
   ],
   
   targets: [
