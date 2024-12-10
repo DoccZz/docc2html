@@ -6,7 +6,7 @@
 //  Copyright © 2021 ZeeZide GmbH. All rights reserved.
 //
 
-import mustache
+import Mustache
 
 // Parameters: anchor, introHTML, stepsHTML
 // intro is the display: flex

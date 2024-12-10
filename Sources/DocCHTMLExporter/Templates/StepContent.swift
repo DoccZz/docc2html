@@ -6,7 +6,7 @@
 //  Copyright © 2021 ZeeZide GmbH. All rights reserved.
 //
 
-import mustache
+import Mustache
 
 // TODO: do something w/ the media stuff
 // the app itself does a lot of extra div's for the modal overlay presentation

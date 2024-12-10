@@ -9,7 +9,7 @@
 import struct Foundation.URL
 import DocCArchive
 import Logging
-import mustache
+import Mustache
 
 /**
  * The object is used for rendering a single document. Not intended to be

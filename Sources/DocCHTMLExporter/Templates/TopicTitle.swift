@@ -7,7 +7,7 @@
 //
 //
 
-import mustache
+import Mustache
 
 let TopicTitleTemplate = Mustache(
   """
