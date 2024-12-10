@@ -94,4 +94,4 @@ Package.resolved
 xcuserdata
 .docker.build
 .swiftpm
-
+.vscode
