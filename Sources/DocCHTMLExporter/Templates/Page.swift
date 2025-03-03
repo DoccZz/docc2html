@@ -6,7 +6,7 @@
 //  Copyright © 2021 ZeeZide GmbH. All rights reserved.
 //
 
-import mustache
+import Mustache
 
 #if false // attempt to reuse the stylesheets, but doesn't really fly
   fileprivate let stylesheets = [

@@ -6,7 +6,7 @@
 //  Copyright © 2021 ZeeZide GmbH. All rights reserved.
 //
 
-import mustache
+import Mustache
 
 // FIXME: This is slightly wrong, we need to loop over the declarations within.
 let DeclarationSectionTemplate = Mustache(
