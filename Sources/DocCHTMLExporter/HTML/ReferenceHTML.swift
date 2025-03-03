@@ -3,7 +3,7 @@
 //  docc2html
 //
 //  Created by Helge Heß.
-//  Copyright © 2021-2022 ZeeZide GmbH. All rights reserved.
+//  Copyright © 2021-2025 ZeeZide GmbH. All rights reserved.
 //
 
 import Foundation
@@ -150,7 +150,7 @@ extension DocCArchive.ImageReference {
   func generateHTML(in ctx: DZRenderingContext) -> String {
     guard let variant = bestVariant(for: ctx.traits) else {
       assertionFailure("Got no image variant?")
-      return "<!-- invalid image ref -->\(alt?.htmlEscaped ?? "")"
+      return "<!-- invalid image ref -->\(alt?.htmlEscaped ?? "??")"
     }
     
     let media : String = {
